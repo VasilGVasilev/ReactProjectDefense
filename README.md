@@ -17,7 +17,7 @@ Auth
         we pass on this object to our userLogin function via context API
     
     Login:
-        
+        we utilize the custom hook combining setting the object as a value of state for App component and setting the value of localStorage
 
 
 CRUD on matches
