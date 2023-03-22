@@ -19,5 +19,7 @@ Auth
     Login:
         we utilize the custom hook combining setting the object as a value of state for App component and setting the value of localStorage
 
+    Navigation:
+        navigation filters Links based on if there is user.email in Context API, because only logged-in user has email, default auth is empty object {}
 
 CRUD on matches
