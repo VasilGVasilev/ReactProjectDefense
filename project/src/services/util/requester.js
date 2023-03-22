@@ -26,7 +26,7 @@ const request = async (method, url, data) => {
 
         const response = await buildRequest;
 
-        // checking due to logout returning error if response is resolved, thus we abandon requester as a whole for logout
+        // logout has custom fetch so that it does not crash due to following parsing: see authService
         const result = await response.json();
 
         return result;
@@ -37,6 +37,7 @@ const request = async (method, url, data) => {
     
 }
 
+// .bind() requires first arg as context -> thus, here is empty obj/null
 export const get = request.bind({}, 'GET');
 export const post = request.bind({}, 'POST');
 export const patch = request.bind({}, 'PATCH');
