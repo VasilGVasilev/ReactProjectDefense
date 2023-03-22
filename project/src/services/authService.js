@@ -6,7 +6,7 @@ const baseUrl = 'http://localhost:3030/users';
 // due to services passing on synchroniously to be resolved in respective components
 
 
-export const login = async (email, password) => request.post(`${baseUrl}/login`, {email, password})
+export const login = (email, password) => request.post(`${baseUrl}/login`, {email, password})
 
 // request so that server can destroy session token
 export const logout = async (accessToken) => {
@@ -24,4 +24,4 @@ export const logout = async (accessToken) => {
     }
 };
 
-export const register = async (email, password) => request.post(`${baseUrl}/register`, {email, password})
+export const register = (email, password) => request.post(`${baseUrl}/register`, {email, password})
