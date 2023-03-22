@@ -21,7 +21,7 @@ export const useLocalStorage = (key, defaultValue) => {
 
 
 // this custom hook has too parts, the first is the setting function which makes it so that 
-// first, we set values both on browser via localStorage and on our local App component
-// second, we initialize our local value for state via using localStorage which is:
-// either persisting data from previous refresh cycle
-// or we set a hardcoded init value -> 'auth' : {} 
+    // first, we set values both on browser via localStorage and on our local App component
+    // second, we initialize our local value for state via using localStorage which is:
+        // either persisting data from previous refresh cycle
+        // or we set a hardcoded init value -> 'auth' : {} 
