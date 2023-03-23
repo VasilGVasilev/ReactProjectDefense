@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import * as gameService from '../../services/gameServices'
+import * as matchService from '../../services/matchServices'
 
-const GameDetails = ({
-    // games,
+const MatchDetails = ({
+    // matches,
     // addComment,
 
 }) => {
-    const [game, setGame] = useState({});
+    const [match, setMatch] = useState({});
     const [teamOneVotes, setTeamOneVotes] = useState(4);
     const [teamTwoVotes, setTeamTwoVotes] = useState(1);
     const { matchId } = useParams();
 
     useEffect(()=>{
-        gameService.getOne(matchId)
+        matchService.getOne(matchId)
             .then(result => {
-                setGame(result);
+                setMatch(result);
             })
     },[])
 
@@ -80,7 +80,7 @@ const GameDetails = ({
                 <h1 className='title'>Match Details</h1>
                 <div className='infoSection'>
                     <div className='date'>
-                        {game.date}
+                        {match.date}
                     </div>
 
                     <div className='matchHeader'>
@@ -99,8 +99,8 @@ const GameDetails = ({
                         </div>
                     </div>
                     <div className='matchNames'>
-                        <p className='teamOneName'>{game.teamOne}</p>
-                        <p className='teamTwoName'>{game.teamTwo}</p>
+                        <p className='teamOneName'>{match.teamOne}</p>
+                        <p className='teamTwoName'>{match.teamTwo}</p>
                     </div>
 
 
@@ -118,13 +118,13 @@ const GameDetails = ({
                     <div className='detailsComments'>
                         <h2>Comments:</h2>
                         <ul>
-                            {game.comments?.map(x =>
+                            {match.comments?.map(x =>
                                 <li className='comment'>
                                     <p>{x}</p>
                                 </li>
                             )}
                         </ul>
-                        {!game.comments &&
+                        {!match.comments &&
                             <div className='detailsCommentsOne'>
 
                                 <p className='noComment'>No comments.</p>
@@ -168,4 +168,4 @@ const GameDetails = ({
         </section>
     )
 }
-export default GameDetails;
+export default MatchDetails;

@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 
-const CatalogItem = ({game}) => {
+const CatalogItem = ({match}) => {
     return(
         <div className="match">
             <div className="teamSides">
-                <p>{game.teamOne}</p>
+                <p>{match.teamOne}</p>
                 <h5>VS</h5>
-                <p>{game.teamTwo}</p>
+                <p>{match.teamTwo}</p>
             </div>
             <div className="buttons">
-                <Link to={`/catalog/${game._id}`} className="detailsButton">Details</Link>
+                <Link to={`/catalog/${match._id}`} className="detailsButton">Details</Link>
             </div>
         </div>
     );

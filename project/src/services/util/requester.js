@@ -28,7 +28,6 @@ const request = async (method, url, data) => {
 
         // logout has custom fetch so that it does not crash due to following parsing: see authService
         const result = await response.json();
-
         return result;
 
     } catch (error) {

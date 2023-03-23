@@ -1,7 +1,7 @@
 import CatalogItem from "./CatalogItem/CatalogItem";
 
 const Catalog = ({
-    games
+    matches
 }) => {
     return(
             <section className="catalogPage">
@@ -11,9 +11,9 @@ const Catalog = ({
                             <h1>All matches</h1>
                         </div>
                         <div className="carousel">
-                            <div className="carouselBox" style={games?.length < 4 ? {justifyContent:'center'} : {}}>
-                                {games?.length > 0
-                                    ? games.map(game => <CatalogItem key={game._id} game={game}/>)
+                            <div className="carouselBox" style={matches?.length < 4 ? {justifyContent:'center'} : {}}>
+                                {matches?.length > 0
+                                    ? matches.map(match => <CatalogItem key={match._id} match={match}/>)
                                     : <h3 className="noMatches">No matches yet</h3>
                                 }
                             </div>

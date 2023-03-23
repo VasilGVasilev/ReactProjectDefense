@@ -10,10 +10,10 @@ import CreateMatch from './components/CreateMatch/CreateMatch';
 import Catalog from './components/Catalog/Catalog';
 import MatchDetails from './components/MatchDetails/MatchDetails';
 
-import * as gameService from './services/gameServices'
+import * as matchService from './services/matchServices'
 
 import { AuthContext } from './contexts/AuthContext'
-
+import { MatchContext } from './contexts/MatchContext'
 
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
@@ -21,20 +21,22 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 
 
 function App() {
-    const [games, setGames] = useState([]);
+    const navigate = useNavigate();
 
+    const [matches, setMatches] = useState([]);
     const [auth, setAuth] = useLocalStorage('auth', {}); // 'auth' is a hardcoded key
 
 
     useEffect(() => {
-        gameService.getAll()
+        matchService.getAll()
             .then(result => {
-                setGames(result)
+                setMatches(result)
             })
     }, [])
 
     // encapsulating the setting of auth state functionality and then passing it on via Context API is good practice
 
+    // AUTH
     // we use returned from login fetch data to set it in localStorage and component state
     const userLogin = (authData) => {
         setAuth(authData)
@@ -45,23 +47,35 @@ function App() {
         setAuth({})
     }
 
+    // CRUD on matches
+    const matchAdd = (matchData) => {
+        setMatches(state => [ 
+            ...state,
+            matchData
+        ]);
+        navigate('/catalog')
+    };
+
     return (
         // user:auth for custom visualisation, userLogin and userLogout -> to enable real-time authentication
         <AuthContext.Provider value={{ user: auth, userLogin, userLogout }}>
             <div className="box">
                 <Header></Header>
-                <main className='main-content'>
-                    <Routes>
-                        <Route path='/' element={<Home />}></Route>
-                        <Route path='/login' element={<Login />}></Route>
-                        <Route path='/register' element={<Register />}></Route>
-                        <Route path='/logout' element={<Logout />}></Route>
-                        <Route path='/create' element={<CreateMatch />}></Route>
-                        <Route path='/catalog' element={<Catalog games={games} />}></Route>
-                        <Route path='/catalog/:matchId' element={<MatchDetails />}></Route>
+                
+                <MatchContext.Provider value={{ matches, matchAdd }}>
+                    <main className='main-content'>
+                        <Routes>
+                            <Route path='/' element={<Home />}></Route>
+                            <Route path='/login' element={<Login />}></Route>
+                            <Route path='/register' element={<Register />}></Route>
+                            <Route path='/logout' element={<Logout />}></Route>
+                            <Route path='/create' element={<CreateMatch />}></Route>
+                            <Route path='/catalog' element={<Catalog matches={matches} />}></Route>
+                            <Route path='/catalog/:matchId' element={<MatchDetails />}></Route>
 
-                    </Routes>
-                </main>
+                        </Routes>
+                    </main>
+                </MatchContext.Provider>
             </div>
         </AuthContext.Provider>
     );
