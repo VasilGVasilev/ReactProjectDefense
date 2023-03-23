@@ -1,8 +1,23 @@
 # ReactProjectDefense
 
-### `npm start` for Front-End initialization, terminal in /project
+## What's in the stack
 
-### `node server` for Back-End initialization, terminal in /server
+- Styling with [SASS](https://sass-lang.com/)
+
+
+## Development
+
+- Start Front-End in ./project:
+
+  ```sh
+  npm start
+  ```
+- Start Back-End in ./server:
+
+  ```sh
+  node server
+  ```
+
 
 
 How does the app work:
@@ -22,4 +37,5 @@ Auth
     Navigation:
         navigation filters Links based on if there is user.email in Context API, because only logged-in user has email, default auth is empty object {}
 
+    
 CRUD on matches
