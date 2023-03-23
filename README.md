@@ -42,3 +42,6 @@ CRUD on matches
 
     CreateMatch:
         we make a create POST request and update the local App via Context API method passed in as a value. It is quintessetial that for the purposes of the app showing the latest request first we update the local state and separately sort when getting all the matches from DB
+
+    MatchDetail:
+        we load the chosen match onto matchDetails component state and use it to visualise default properties. Likes are dynamic, we use CSS flex to make bar chart out of visible and invisible block above it. handleClick changes the proportion of these to flex blocks so that it represents adequatly the competition. The click not only updates the current state so that it is interactive for user, but also useEffect watches for changes of state and makes a put request for changes in voting to be reflected on the DB, too

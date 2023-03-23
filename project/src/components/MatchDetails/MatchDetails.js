@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import * as matchService from '../../services/matchServices'
 
+import { MatchContext } from '../../contexts/MatchContext';
+
+
 const MatchDetails = ({
-    // matches,
     // addComment,
 
 }) => {
+    const { matchUpdate } = useContext(MatchContext)
+    
     const [match, setMatch] = useState({});
-    const [teamOneVotes, setTeamOneVotes] = useState(4);
-    const [teamTwoVotes, setTeamTwoVotes] = useState(1);
     const { matchId } = useParams();
+
 
     useEffect(()=>{
         matchService.getOne(matchId)
@@ -19,56 +22,87 @@ const MatchDetails = ({
             })
     },[])
 
-    // comment logic hardcoding users that comment
-    const [ comment, setComment] = useState({
-        username: '',
-        comment: '',
-    });
+    useEffect(()=>{
+        matchService.edit(matchId, match)
+        .then(result=>{
+    //second pass on data to update client state
+            matchUpdate(result);
+        })
+    },[match])
 
-    // const [error, setError] = useState({
-    //     username: '',
-    //     comment: '',
-    // });
+    {
 
-
-    // const addCommentHandler = (e) => {
-    //     e.preventDefault();
-    //     addComment(gameId, `${comment.username}: ${comment.comment}`)
-    //     console.log(comment)
-    // }
-
-    const onChange = (e) => {
-        setComment(state => ({
-            ...state,
-            [e.target.name]: e.target.value // name="username" :  value={comment.username}
-        }))
+        // comment logic hardcoding users that comment
+        const [ comment, setComment] = useState({
+            username: '',
+            comment: '',
+        });
+    
+        // const [error, setError] = useState({
+        //     username: '',
+        //     comment: '',
+        // });
+    
+    
+        // const addCommentHandler = (e) => {
+        //     e.preventDefault();
+        //     addComment(gameId, `${comment.username}: ${comment.comment}`)
+        //     console.log(comment)
+        // }
+    
+        // const onChange = (e) => {
+        //     setComment(state => ({
+        //         ...state,
+        //         [e.target.name]: e.target.value // name="username" :  value={comment.username}
+        //     }))
+        // }
+    
+        // const validateUsername = (e) => {
+        //     const username = e.target.value;
+        //     let errorMessage = '';
+        //     if (username.length < 4){
+        //         errorMessage = 'Username must be minimum 4 characters long!'
+        //     } else if (username.length > 10) {
+        //         errorMessage = 'Username must be shorter than 10 characters!'
+        //     }
+        //     setError(state => ({
+        //         ...state,
+        //         [e.target.name]: errorMessage
+        //     }))
+    
+        // }
     }
-
-    // const validateUsername = (e) => {
-    //     const username = e.target.value;
-    //     let errorMessage = '';
-    //     if (username.length < 4){
-    //         errorMessage = 'Username must be minimum 4 characters long!'
-    //     } else if (username.length > 10) {
-    //         errorMessage = 'Username must be shorter than 10 characters!'
-    //     }
-    //     setError(state => ({
-    //         ...state,
-    //         [e.target.name]: errorMessage
-    //     }))
-
-    // }
-
+    // Object { _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8", date: "2023-03-23", teamOne: "CSKA", teamOneColor: "#b80000", teamTwo: "Levski", teamTwoColor: "#5300EB", _createdOn: 1679581828243, _id: "9046b5e8-11bc-4344-9bee-999eac59efca" }
 
 
     const handleTeamOne = () => {
-        console.log(teamOneVotes)
-        setTeamOneVotes(s => s + 1)
+        let current = match.teamOneVotes;
+        current++
+        setMatch(state => ({
+            ...state,
+            teamOneVotes: current
+        }))
     }
 
     const handleTeamTwo = () => {
-        console.log(teamTwoVotes)
-        setTeamTwoVotes(s => s + 1)
+        let current = match.teamTwoVotes;
+        current++
+        setMatch(state => ({
+            ...state,
+            teamTwoVotes: current
+        }))
+
+    }
+
+
+    const teamOneChartFullStyle = {
+        flex:`${match.teamOneVotes}`,
+        backgroundColor: `${match.teamOneColor}`
+    }
+
+    const teamTwoChartFullStyle = {
+        flex:`${match.teamTwoVotes}`,
+        backgroundColor: `${match.teamTwoColor}`
     }
 
 
@@ -77,7 +111,7 @@ const MatchDetails = ({
         <section className='detailsPage'>
             <div className='container'>
 
-                <h1 className='title'>Match Details</h1>
+                <h1 className='title'>Vote for your team!</h1>
                 <div className='infoSection'>
                     <div className='date'>
                         {match.date}
@@ -86,21 +120,21 @@ const MatchDetails = ({
                     <div className='matchHeader'>
                         <div className='teamOne'>
                             <div className='teamOneChart'>
-                                <Link className='teamOneChartEmpty' style={{flex:`${teamTwoVotes}`}}></Link>
-                                <Link className='teamOneChartFull' onClick={()=>{handleTeamOne()}} style={{flex:`${teamOneVotes}`}}>{teamOneVotes}</Link>
+                                <Link className='teamOneChartEmpty' style={{flex:`${match.teamTwoVotes}`}}></Link>
+                                <Link className='teamOneChartFull' onClick={()=>{handleTeamOne()}} style={teamOneChartFullStyle}>{match.teamOneVotes}</Link>
                             </div>
                         </div>
 
                         <div className='teamTwo'>
                             <div className='teamTwoChart'>
-                                <Link className='teamTwoChartEmpty' style={{flex:`${teamOneVotes}`}}></Link>
-                                <Link className='teamTwoChartFull' onClick={()=>{handleTeamTwo()}} style={{flex:`${teamTwoVotes}`}}>{teamTwoVotes}</Link>
+                                <Link className='teamTwoChartEmpty' style={{flex:`${match.teamOneVotes}`}}></Link>
+                                <Link className='teamTwoChartFull' onClick={()=>{handleTeamTwo()}} style={teamTwoChartFullStyle}>{match.teamTwoVotes}</Link>
                             </div>
                         </div>
                     </div>
                     <div className='matchNames'>
-                        <p className='teamOneName'>{match.teamOne}</p>
-                        <p className='teamTwoName'>{match.teamTwo}</p>
+                        <Link className='teamOneName' onClick={()=>{handleTeamOne()}}>{match.teamOne}</Link>
+                        <Link className='teamTwoName' onClick={()=>{handleTeamTwo()}}>{match.teamTwo}</Link>
                     </div>
 
 

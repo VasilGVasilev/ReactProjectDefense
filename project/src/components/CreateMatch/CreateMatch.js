@@ -22,9 +22,9 @@ const CreateMatch = () => {
         
         // init object with defualt likes
         let matchData = values;
-        matchData['teamOneLikes'] = 0;
-        matchData['teamTwoLikes'] = 0;
-        
+        matchData['teamOneVotes'] = 1;
+        matchData['teamTwoVotes'] = 1;
+
         // first update server
         matchService.create(matchData)
             .then(result=>{
