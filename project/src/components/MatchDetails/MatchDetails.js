@@ -2,18 +2,18 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import * as matchService from '../../services/matchServices'
 
-import { MatchContext } from '../../contexts/MatchContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 
 const MatchDetails = ({
     // addComment,
 
 }) => {
-    const { matchUpdate } = useContext(MatchContext)
+    const { user } = useContext(AuthContext);
+
     
     const [match, setMatch] = useState({});
     const { matchId } = useParams();
-
 
     useEffect(()=>{
         matchService.getOne(matchId)
@@ -24,11 +24,11 @@ const MatchDetails = ({
 
     useEffect(()=>{
         matchService.edit(matchId, match)
-        .then(result=>{
-    //second pass on data to update client state
-            matchUpdate(result);
-        })
+            .then(result => {
+                return;
+            })
     },[match])
+
 
     {
 
@@ -73,7 +73,9 @@ const MatchDetails = ({
         // }
     }
     // Object { _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8", date: "2023-03-23", teamOne: "CSKA", teamOneColor: "#b80000", teamTwo: "Levski", teamTwoColor: "#5300EB", _createdOn: 1679581828243, _id: "9046b5e8-11bc-4344-9bee-999eac59efca" }
-
+    
+    let owner = user._id == match._ownerId ? true : false;
+    console.log(user);
 
     const handleTeamOne = () => {
         let current = match.teamOneVotes;
@@ -82,6 +84,7 @@ const MatchDetails = ({
             ...state,
             teamOneVotes: current
         }))
+
     }
 
     const handleTeamTwo = () => {
@@ -91,6 +94,7 @@ const MatchDetails = ({
             ...state,
             teamTwoVotes: current
         }))
+
 
     }
 
@@ -104,7 +108,6 @@ const MatchDetails = ({
         flex:`${match.teamTwoVotes}`,
         backgroundColor: `${match.teamTwoColor}`
     }
-
 
 
     return(
@@ -137,9 +140,9 @@ const MatchDetails = ({
                         <Link className='teamTwoName' onClick={()=>{handleTeamTwo()}}>{match.teamTwo}</Link>
                     </div>
 
-
-
-
+        {
+            owner 
+                ?
                     <div className='buttonsDelEdit'>
                         <Link href='#' className='button'>
                             Edit
@@ -148,6 +151,12 @@ const MatchDetails = ({
                             Delete
                         </Link>
                     </div>
+                :
+                    <>
+                    </>
+
+        }
+
 
                     <div className='detailsComments'>
                         <h2>Comments:</h2>

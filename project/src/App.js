@@ -57,14 +57,6 @@ function App() {
         navigate('/catalog')
     };
 
-    const matchUpdate = (matchData) => {
-        setMatches(state => [
-            // this sets the last created match to be first, but also necessary to sort getAll()
-            matchData,
-            ...state
-        ]);
-    };
-    
 
     return (
         // user:auth for custom visualisation, userLogin and userLogout -> to enable real-time authentication
@@ -72,7 +64,7 @@ function App() {
             <div className="box">
                 <Header></Header>
                 
-                <MatchContext.Provider value={{ matches, matchAdd, matchUpdate }}>
+                <MatchContext.Provider value={{ matches, matchAdd }}>
                     <main className='main-content'>
                         <Routes>
                             <Route path='/' element={<Home />}></Route>
