@@ -35,7 +35,10 @@ Auth
         we utilize the custom hook combining setting the object as a value of state for App component and setting the value of localStorage
 
     Navigation:
-        navigation filters Links based on if there is user.email in Context API, because only logged-in user has email, default auth is empty object {}
+        we filter Links based on if there is user.email in Context API, because only logged-in user has email, default auth is empty object {}
 
     
 CRUD on matches
+
+    CreateMatch:
+        we make a create POST request and update the local App via Context API method passed in as a value. It is quintessetial that for the purposes of the app showing the latest request first we update the local state and separately sort when getting all the matches from DB

@@ -20,11 +20,15 @@ const CreateMatch = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         
+        // init object with defualt likes
         let matchData = values;
+        matchData['teamOneLikes'] = 0;
+        matchData['teamTwoLikes'] = 0;
+        
         // first update server
         matchService.create(matchData)
             .then(result=>{
-            //second pass on data to update client state
+        //second pass on data to update client state
                 matchAdd(result) 
             })
     }
