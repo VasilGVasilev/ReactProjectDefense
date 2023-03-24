@@ -27,6 +27,7 @@ function App() {
     const [auth, setAuth] = useLocalStorage('auth', {}); // 'auth' is a hardcoded key
 
 
+
     useEffect(() => {
         matchService.getAll()
             .then(result => {
@@ -57,6 +58,19 @@ function App() {
         navigate('/catalog')
     };
 
+    const voteAdd = (matchData) => {
+        setMatches(state => {
+            // you cannot just state: ...state, matchData
+            // it will add instead of update the version
+            // thus, we use rest operator to fill state with all matches BUT for the updated via filtering it out
+            // the, we add the updated to the state
+            return [
+                ...state.filter(x => x._id !== matchData._id),
+                matchData
+            ]
+        })
+    }
+
 
     return (
         // user:auth for custom visualisation, userLogin and userLogout -> to enable real-time authentication
@@ -64,7 +78,7 @@ function App() {
             <div className="box">
                 <Header></Header>
                 
-                <MatchContext.Provider value={{ matches, matchAdd }}>
+                <MatchContext.Provider value={{ matches, matchAdd, voteAdd }}>
                     <main className='main-content'>
                         <Routes>
                             <Route path='/' element={<Home />}></Route>

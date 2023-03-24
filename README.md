@@ -40,11 +40,11 @@ Auth
     
 CRUD on matches
 
+    Catalog:
+        we sort the last added match to be first left-to-right.
+
     CreateMatch:
-        we make a create POST request and update the local App via Context API method passed in as a value. It is quintessetial that for the purposes of the app showing the latest request first we update the local state and separately sort when getting all the matches from DB
+        we make a create POST request and update the local App via Context API method passed in as a value.
 
     MatchDetail:
-        we load the chosen match onto matchDetails component state and use it to visualise default properties. Likes are dynamic, we use CSS flex to make bar chart out of visible and invisible block above it. handleClick changes the proportion of these to flex blocks so that it represents adequatly the competition. 
-
-        to be edited:
-        Currently, useEffect updates via put the chnaged bit of the match object -> likes property, there is no need to notify and update the App component state via Context API or any, as done before, thus, leading to overpopulation of the state with same match until refresh clears. But this is done as I said via no update of App component state, just the details one and via useEffect the DB. BUT there is another problem, using put to update votes is possible only as an owner as per softuni practice server docs, thus I have to make another collection that identifies each match and keeps track of the likes for the teams that all users can send POSTs to. Then I will limit visually clickability of like buttons
+        we load the chosen match onto matchDetails component state and use it to visualise default properties. Likes are dynamic, we use CSS flex to make bar chart out of visible and invisible block above it. handleClick changes the proportion of these to flex blocks so that it represents a bar chart. We use the central matches state in App component to extracted away the one we want details for. Each click to vote mutates the state of the locally extracted match and via Context API useContext method from App component we update the match details regarding voting in the central state (App component). This is done on Front-End only due to limits of the Softuni Practice Server to make PUT requests to collections by users other than the owner.
