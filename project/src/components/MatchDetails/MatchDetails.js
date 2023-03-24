@@ -113,32 +113,20 @@ const MatchDetails = ({
                         <div className='teamOne'>
                             <div className='teamOneChart'>
                                 <Link className='teamOneChartEmpty' style={{flex:`${match.teamTwoVotes}`}}></Link>
-                                <Link className='teamOneChartFull'onClick={handleTeamOne} style={teamOneChartFullStyle}>{match.teamOneVotes}</Link>
+                                <Link className='teamOneChartFull' onClick={loggedIn ? handleTeamOne : null} style={teamOneChartFullStyle}>{match.teamOneVotes}</Link>
                             </div>
                         </div>
 
                         <div className='teamTwo'>
                             <div className='teamTwoChart'>
                                 <Link className='teamTwoChartEmpty' style={{flex:`${match.teamOneVotes}`}}></Link>
-                                <Link className='teamTwoChartFull' onClick={handleTeamTwo} style={teamTwoChartFullStyle}>{match.teamTwoVotes}</Link>
+                                <Link className='teamTwoChartFull' onClick={loggedIn ? handleTeamTwo : null} style={teamTwoChartFullStyle}>{match.teamTwoVotes}</Link>
                             </div>
                         </div>
                     </div>
-                    <div className='matchNames'>
-                        {
-                            loggedIn 
-                                ?
-                                <>                                
-                                    <Link className='teamOneName' onClick={handleTeamOne()}>{match.teamOne}</Link>
-                                    <Link className='teamTwoName' onClick={handleTeamTwo()}>{match.teamTwo}</Link>
-                                </>
-                                :
-                                <>                                
-                                    <Link className='teamOneName' >{match.teamOne}</Link>
-                                    <Link className='teamTwoName' >{match.teamTwo}</Link>
-                                </>
-                        }
-
+                    <div className='matchNames'>                              
+                        <Link className='teamOneName' onClick={loggedIn ? handleTeamOne : null}>{match.teamOne}</Link>
+                        <Link className='teamTwoName' onClick={loggedIn ? handleTeamTwo : null}>{match.teamTwo}</Link>
                     </div>
 
         {
