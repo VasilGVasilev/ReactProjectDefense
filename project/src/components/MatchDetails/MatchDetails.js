@@ -22,13 +22,6 @@ const MatchDetails = ({
             })
     },[])
 
-    useEffect(()=>{
-        matchService.edit(matchId, match)
-            .then(result => {
-                return;
-            })
-    },[match])
-
 
     {
 
