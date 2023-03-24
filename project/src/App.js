@@ -50,10 +50,10 @@ function App() {
     // CRUD on matches
     const matchAdd = (matchData) => {
         setMatches(state => [
-            // this sets the last created match to be first, but also necessary to sort getAll()
-            matchData,
-            ...state
+            ...state,
+            matchData
         ]);
+
         navigate('/catalog')
     };
 

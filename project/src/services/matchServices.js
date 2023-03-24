@@ -5,7 +5,7 @@ const baseUrl = 'http://localhost:3030/data/matches';
 // no need for promise resolve in services since they just pass on 
 // promise wrapped in request to be resolved in App useEffect
 
-export const getAll = () => request.get(`${baseUrl}?sortBy=_createdOn%20desc`) //sort matches in DB too, not only in local state
+export const getAll = () => request.get(baseUrl)
 
 export const getOne = (matchId) => request.get(`${baseUrl}/${matchId}`);
 
