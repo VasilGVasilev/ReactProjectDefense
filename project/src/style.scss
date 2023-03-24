@@ -192,10 +192,20 @@ body{
         backdrop-filter: blur(10px);
         border-radius: 10px;
 
-        .logo{
-            color: white;
-            font-weight: bold;
-            font-size: 26px;
+        .logoAndNB{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            .logo{
+                color: white;
+                font-weight: bold;
+                font-size: 26px;
+            }
+            
+            .NB{
+                font-size: 12px;
+                color: rgb(213, 215, 103);
+            }
         }
 
         form{
@@ -540,15 +550,27 @@ body{
             }
             
             .buttonsDelEdit{
-                .button{
-
-                    background-color: #2A265F;
+                display: flex;
+                gap: 20px;
+                .buttonDel{
+                    padding: 10px;
+                    background-color: rgb(158, 5, 5);
                     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
                     color: #fff;
                     font-size: 20px;
                     letter-spacing: 1px;
                     text-decoration: none;
-                    cursor: pointer;   
+                    cursor: pointer; 
+                }
+                .buttonEdit{
+                    padding: 10px;
+                    background-color: green;
+                    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+                    color: #fff;
+                    font-size: 20px;
+                    letter-spacing: 1px;
+                    text-decoration: none;
+                    cursor: pointer; 
                 }
             }
 

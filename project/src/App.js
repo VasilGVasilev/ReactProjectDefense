@@ -18,6 +18,7 @@ import { MatchContext } from './contexts/MatchContext'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import EditMatch from './components/EditMatch/EditMatch';
 
 
 function App() {
@@ -72,6 +73,11 @@ function App() {
         })
     }
 
+    const matchEdit = (matchData) => {
+        setMatches(state => state.map(x => x._id === matchData._id ? matchData : x));
+    }
+
+
 
     return (
         // user:auth for custom visualisation, userLogin and userLogout -> to enable real-time authentication
@@ -79,7 +85,7 @@ function App() {
             <div className="box">
                 <Header></Header>
                 
-                <MatchContext.Provider value={{ matches, matchAdd, voteAdd }}>
+                <MatchContext.Provider value={{ matches, matchAdd, voteAdd, matchEdit }}>
                     <main className='main-content'>
                         <Routes>
                             <Route path='/' element={<Home />}></Route>
@@ -89,6 +95,8 @@ function App() {
                             <Route path='/create' element={<CreateMatch />}></Route>
                             <Route path='/catalog' element={<Catalog matches={matches} />}></Route>
                             <Route path='/catalog/:matchId' element={<MatchDetails />}></Route>
+                            <Route path='/matches/:matchId/edit' element={<EditMatch />}></Route>
+
 
                         </Routes>
                     </main>

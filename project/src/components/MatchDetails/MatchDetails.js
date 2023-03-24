@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import * as matchService from '../../services/matchServices'
 
@@ -9,6 +9,7 @@ import { MatchContext } from '../../contexts/MatchContext';
 
 const MatchDetails = ({
 }) => {
+
     const { user } = useContext(AuthContext);
     const { voteAdd, matches } = useContext(MatchContext);
 
@@ -63,8 +64,6 @@ const MatchDetails = ({
     
     let owner = user._id == match._ownerId ? true : false;
     let loggedIn = user.email || false;
-    console.log(loggedIn);
-    let voted = false;
 
     const handleTeamOne = () => {
         let current = match.teamOneVotes;
@@ -73,7 +72,6 @@ const MatchDetails = ({
 
         voteAdd(match);
 
-        voted = true;
     }
 
     const handleTeamTwo = () => {
@@ -83,7 +81,6 @@ const MatchDetails = ({
 
         voteAdd(match);
 
-        voted = true;
     }
 
 
@@ -96,6 +93,15 @@ const MatchDetails = ({
         flex:`${match.teamTwoVotes}`,
         backgroundColor: `${match.teamTwoColor}`
     }
+
+    // const deleteMatch = () => {
+
+    //     matchService.del(matchId)
+    //         .then(result => {
+    //             return;
+    //         })
+        
+    // }
 
 
     return(
@@ -132,10 +138,10 @@ const MatchDetails = ({
             owner 
                 ?
                     <div className='buttonsDelEdit'>
-                        <Link href='#' className='button'>
+                        <Link to={`/matches/${matchId}/edit`} className='buttonEdit'>
                             Edit
                         </Link>
-                        <Link href='#' className='button'>
+                        <Link className='buttonDel'>
                             Delete
                         </Link>
                     </div>

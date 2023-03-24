@@ -1,20 +1,30 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
+
 import { GithubPicker } from 'react-color'
-import { MatchContext } from '../../contexts/MatchContext';
 
 import * as matchService from '../../services/matchServices';
+import { MatchContext } from "../../contexts/MatchContext";
 
+const EditMatch = () => {
+    const { matchEdit } = useContext(MatchContext);
+    const { matchId } = useParams();
+    const navigate = useNavigate();
 
-const CreateMatch = () => {
-    const { matchAdd } = useContext(MatchContext)
+    const [values, setValues] = useState({});
 
-    const [values, setValues] = useState({
-        date: '',
-        teamOne: '',
-        teamOneColor: '#B80000',
-        teamTwo: '',
-        teamTwoColor: '#5300EB',
-    });
+    useEffect(() => {
+        matchService.getOne(matchId)
+            .then(matchData => {
+                setValues({
+                    date: matchData.date,
+                    teamOne: matchData.teamOne,
+                    teamOneColor: matchData.teamOneColor,
+                    teamTwo: matchData.teamTwo,
+                    teamTwoColor: matchData.teamTwoColor,
+                });
+            })
+    }, [])
 
 
     const onSubmit = (e) => {
@@ -26,10 +36,12 @@ const CreateMatch = () => {
         matchData['teamTwoVotes'] = 1;
 
         // first update server
-        matchService.create(matchData)
+        matchService.edit(matchId, matchData)
             .then(result=>{
         //second pass on data to update client state
-                matchAdd(result) 
+                matchEdit(result);
+                navigate(`/catalog/${matchId}`)
+
             })
     }
 
@@ -40,18 +52,21 @@ const CreateMatch = () => {
         }));
     };
 
-    return(
+    return (
         <section className='loggedFormContainer'>
             <div className='formWrapper'>
-                <span className='logo'>Create Game</span>
+                <div className="logoAndNB">
+                    <span className='logo'>Edit Game</span>
+                    <span className="NB">Note voting will be reset!</span>
+                </div>
                 <form onSubmit={onSubmit}>
-                    <label htmlFor='date' value={values.date} >Date:</label>
+                    <label htmlFor='date' defaultValue={values.date} >Date:</label>
                     <input 
                         type='date' 
                         name='date' 
                         id='date'
                         onChange={changeHandler}
-                        value={values.date}
+                        defaultValue={values.date}
                     />
                     <label htmlFor='teamOne'>Team 1:</label>
                     <input 
@@ -60,7 +75,7 @@ const CreateMatch = () => {
                         id='teamOne' 
                         placeholder='Enter Team 1'
                         onChange={changeHandler}
-                        value={values.teamOne}
+                        defaultValue={values.teamOne}
                     />
                     <label htmlFor='teamOneColor'>Color: <span style={{color: values.teamOneColor}}>{values.teamOneColor}</span></label>
                     <GithubPicker
@@ -77,7 +92,7 @@ const CreateMatch = () => {
                         id='teamTwo' 
                         placeholder='Enter Team 2'
                         onChange={changeHandler}
-                        value={values.teamTwo}
+                        defaultValue={values.teamTwo}
                     />
                     <label htmlFor='teamTwoColor'>Color: <span style={{color: values.teamTwoColor}}>{values.teamTwoColor}</span></label>
                     <GithubPicker
@@ -86,14 +101,12 @@ const CreateMatch = () => {
                             teamTwoColor: color.hex
                         }))}}
                     />
-                    <button>Create</button>
+                    <button>Edit</button>
                 </form>
 
             </div>
         </section>
-    )
+    );
 }
 
-export default CreateMatch;
-
-
+export default EditMatch;

@@ -48,3 +48,6 @@ CRUD on matches
 
     MatchDetail:
         we load the chosen match onto matchDetails component state and use it to visualise default properties. Likes are dynamic, we use CSS flex to make bar chart out of visible and invisible block above it. handleClick changes the proportion of these to flex blocks so that it represents a bar chart. We use the central matches state in App component to extracted away the one we want details for. Each click to vote mutates the state of the locally extracted match and via Context API useContext method from App component we update the match details regarding voting in the central state (App component). This is done on Front-End only due to limits of the Softuni Practice Server to make PUT requests to collections by users other than the owner. If you refresh likes are destroyed since state is re-set based on fetch from DB.
+
+    EditMatch:
+        we fetch data from DB into a controlled form, there is a note saying that voting will be reset, since for now it does not persist even in memory of DB

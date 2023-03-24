@@ -12,3 +12,6 @@ export const getOne = (matchId) => request.get(`${baseUrl}/${matchId}`);
 export const create = (matchData) => request.post(baseUrl, matchData);
 
 export const edit = (matchId, matchData) => request.put(`${baseUrl}/${matchId}`, matchData);
+
+export const del = (matchId) => request.del(`${baseUrl}/${matchId}`);
+
