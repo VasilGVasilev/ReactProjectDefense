@@ -65,9 +65,10 @@ function App() {
             // thus, we use rest operator to fill state with all matches BUT for the updated via filtering it out
             // the, we add the updated to the state
             return [
-                ...state.filter(x => x._id !== matchData._id),
-                matchData
-            ]
+                    ...state.filter(x => x._id !== matchData._id),
+                    matchData
+                ]
+            // alternative -> return [...state.map(x => x._id === matchData._id ? matchData : x)]
         })
     }
 

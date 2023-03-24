@@ -12,7 +12,6 @@ const MatchDetails = ({
     const { user } = useContext(AuthContext);
     const { voteAdd, matches } = useContext(MatchContext);
 
-
     
     const { matchId } = useParams();
     const match = matches.find(x => x._id == matchId)
