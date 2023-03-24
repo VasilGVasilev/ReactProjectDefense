@@ -63,22 +63,28 @@ const MatchDetails = ({
     // Object { _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8", date: "2023-03-23", teamOne: "CSKA", teamOneColor: "#b80000", teamTwo: "Levski", teamTwoColor: "#5300EB", _createdOn: 1679581828243, _id: "9046b5e8-11bc-4344-9bee-999eac59efca" }
     
     let owner = user._id == match._ownerId ? true : false;
-    // console.log(user);
+    let loggedIn = user.email || false;
+    console.log(loggedIn);
+    let voted = false;
 
     const handleTeamOne = () => {
         let current = match.teamOneVotes;
         current++;
         match.teamOneVotes = current;
+
         voteAdd(match);
 
-
+        voted = true;
     }
 
     const handleTeamTwo = () => {
         let current = match.teamTwoVotes;
         current++;
         match.teamTwoVotes = current;
+
         voteAdd(match);
+
+        voted = true;
     }
 
 
@@ -107,20 +113,32 @@ const MatchDetails = ({
                         <div className='teamOne'>
                             <div className='teamOneChart'>
                                 <Link className='teamOneChartEmpty' style={{flex:`${match.teamTwoVotes}`}}></Link>
-                                <Link className='teamOneChartFull' onClick={()=>{handleTeamOne()}} style={teamOneChartFullStyle}>{match.teamOneVotes}</Link>
+                                <Link className='teamOneChartFull'onClick={handleTeamOne} style={teamOneChartFullStyle}>{match.teamOneVotes}</Link>
                             </div>
                         </div>
 
                         <div className='teamTwo'>
                             <div className='teamTwoChart'>
                                 <Link className='teamTwoChartEmpty' style={{flex:`${match.teamOneVotes}`}}></Link>
-                                <Link className='teamTwoChartFull' onClick={()=>{handleTeamTwo()}} style={teamTwoChartFullStyle}>{match.teamTwoVotes}</Link>
+                                <Link className='teamTwoChartFull' onClick={handleTeamTwo} style={teamTwoChartFullStyle}>{match.teamTwoVotes}</Link>
                             </div>
                         </div>
                     </div>
                     <div className='matchNames'>
-                        <Link className='teamOneName' onClick={()=>{handleTeamOne()}}>{match.teamOne}</Link>
-                        <Link className='teamTwoName' onClick={()=>{handleTeamTwo()}}>{match.teamTwo}</Link>
+                        {
+                            loggedIn 
+                                ?
+                                <>                                
+                                    <Link className='teamOneName' onClick={handleTeamOne()}>{match.teamOne}</Link>
+                                    <Link className='teamTwoName' onClick={handleTeamTwo()}>{match.teamTwo}</Link>
+                                </>
+                                :
+                                <>                                
+                                    <Link className='teamOneName' >{match.teamOne}</Link>
+                                    <Link className='teamTwoName' >{match.teamTwo}</Link>
+                                </>
+                        }
+
                     </div>
 
         {
