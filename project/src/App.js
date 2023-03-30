@@ -27,7 +27,6 @@ function App() {
     const [matches, setMatches] = useState([]);
     const [auth, setAuth] = useLocalStorage('auth', {}); // 'auth' is a hardcoded key
 
-
     useEffect(() => {
         matchService.getAll()
             .then(result => {

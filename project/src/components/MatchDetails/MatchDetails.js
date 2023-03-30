@@ -94,13 +94,11 @@ const MatchDetails = ({
     }
 
     const deleteMatch = () => {
-
         matchService.del(matchId)
             .then(() => {
                 navigate('/catalog')
                 matchDel(matchId)
             })
-
     }
 
 
