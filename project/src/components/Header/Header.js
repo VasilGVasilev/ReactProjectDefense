@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
 
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext'
+import { useAuthContext } from '../../contexts/AuthContext'
 
 const Header = () => {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuthContext();
     return (
         <header className='header'>
             {/* Navigation */}

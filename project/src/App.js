@@ -12,12 +12,11 @@ import MatchDetails from './components/MatchDetails/MatchDetails';
 
 import * as matchService from './services/matchServices'
 
-import { AuthContext } from './contexts/AuthContext'
+import { AuthProvider } from './contexts/AuthContext'
 import { MatchContext } from './contexts/MatchContext'
 
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import { useLocalStorage } from './hooks/useLocalStorage';
 import EditMatch from './components/EditMatch/EditMatch';
 
 
@@ -25,7 +24,6 @@ function App() {
     const navigate = useNavigate();
 
     const [matches, setMatches] = useState([]);
-    const [auth, setAuth] = useLocalStorage('auth', {}); // 'auth' is a hardcoded key
 
     useEffect(() => {
         matchService.getAll()
@@ -34,18 +32,9 @@ function App() {
             })
     }, [])
 
-    // encapsulating the setting of auth state functionality and then passing it on via Context API is good practice
 
-    // AUTH
-    // we use returned from login fetch data to set it in localStorage and component state
-    const userLogin = (authData) => {
-        setAuth(authData)
-    }
 
-    // we use remove data from localStorage and component state
-    const userLogout = () => {
-        setAuth({})
-    }
+
 
     // CRUD on matches
     const matchAdd = (matchData) => {
@@ -82,7 +71,7 @@ function App() {
 
     return (
         // user:auth for custom visualisation, userLogin and userLogout -> to enable real-time authentication
-        <AuthContext.Provider value={{ user: auth, userLogin, userLogout }}>
+        <AuthProvider>
             <div className="box">
                 <Header></Header>
                 
@@ -103,7 +92,7 @@ function App() {
                     </main>
                 </MatchContext.Provider>
             </div>
-        </AuthContext.Provider>
+        </AuthProvider>
     );
 }
 
