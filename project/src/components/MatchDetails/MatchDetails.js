@@ -9,14 +9,13 @@ import { MatchContext } from '../../contexts/MatchContext';
 
 const MatchDetails = ({
 }) => {
-    const navigate =  useNavigate();
+    const navigate = useNavigate()
     const { user } = useContext(AuthContext);
     const { voteAdd, matches, matchDel } = useContext(MatchContext);
 
     
     const { matchId } = useParams();
-    const match = matches.find(x => x._id == matchId)
-
+    const match = matches.find(x => x._id == matchId);
 
     {
 
@@ -97,9 +96,9 @@ const MatchDetails = ({
     const deleteMatch = () => {
 
         matchService.del(matchId)
-            .then(result => {
+            .then(() => {
+                navigate('/catalog')
                 matchDel(matchId)
-                navigate('/')
             })
 
     }
@@ -207,3 +206,6 @@ const MatchDetails = ({
     )
 }
 export default MatchDetails;
+
+// best practice is to to update the server via fetch and
+// within the resolving of the request update state and navigate
