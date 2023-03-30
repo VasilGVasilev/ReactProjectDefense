@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import * as matchService from '../../services/matchServices'
 
 import { AuthContext } from '../../contexts/AuthContext';
@@ -9,9 +9,9 @@ import { MatchContext } from '../../contexts/MatchContext';
 
 const MatchDetails = ({
 }) => {
-
+    const navigate =  useNavigate();
     const { user } = useContext(AuthContext);
-    const { voteAdd, matches } = useContext(MatchContext);
+    const { voteAdd, matches, matchDel } = useContext(MatchContext);
 
     
     const { matchId } = useParams();
@@ -94,14 +94,15 @@ const MatchDetails = ({
         backgroundColor: `${match.teamTwoColor}`
     }
 
-    // const deleteMatch = () => {
+    const deleteMatch = () => {
 
-    //     matchService.del(matchId)
-    //         .then(result => {
-    //             return;
-    //         })
-        
-    // }
+        matchService.del(matchId)
+            .then(result => {
+                matchDel(matchId)
+                navigate('/')
+            })
+
+    }
 
 
     return(
@@ -141,7 +142,7 @@ const MatchDetails = ({
                         <Link to={`/matches/${matchId}/edit`} className='buttonEdit'>
                             Edit
                         </Link>
-                        <Link className='buttonDel'>
+                        <Link onClick={deleteMatch} className='buttonDel'>
                             Delete
                         </Link>
                     </div>

@@ -77,6 +77,9 @@ function App() {
         setMatches(state => state.map(x => x._id === matchData._id ? matchData : x));
     }
 
+    const matchDel = (matchId) => {
+        setMatches(state => state.filter(x => x._id !== matchId));
+    }
 
 
     return (
@@ -85,7 +88,7 @@ function App() {
             <div className="box">
                 <Header></Header>
                 
-                <MatchContext.Provider value={{ matches, matchAdd, voteAdd, matchEdit }}>
+                <MatchContext.Provider value={{ matches, matchAdd, voteAdd, matchEdit, matchDel }}>
                     <main className='main-content'>
                         <Routes>
                             <Route path='/' element={<Home />}></Route>
