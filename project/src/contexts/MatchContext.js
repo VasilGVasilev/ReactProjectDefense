@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect, useState } from 'react';
+import { createContext, useContext, useReducer, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 import * as matchService from '../services/matchServices'
@@ -8,7 +8,7 @@ export const MatchContext = createContext();
 // outside component -> to not be re-rendered every time we update state
 const matchReducer = (state, action) => {
     switch (action.type) {
-        case 'ADD_MATCHS':
+        case 'ADD_MATCHES':
             return action.payload.map( x => ({  ...x, vote: {} }))
             // return action.payload.slice() // Safety check - if we expect an array, easiest way to have a new reference -> someValue.slice() || [...someValue]
         case 'ADD_MATCH':
@@ -29,20 +29,21 @@ const matchReducer = (state, action) => {
 // -> not overclutter App component
 // -> updating voting requires more complex state structure, thus, useReducer() for similar to Redux global state management
 export const MatchProvider = ({children}) => {
-    const navigate = useNavigate();
     const [matches, dispatch] = useReducer(matchReducer, []); // useReducer main advantage -> easier to read, matches and votes DB into single state
+    const navigate = useNavigate();
     console.log(matches);
     useEffect(() => {
         matchService.getAll()
             .then(result => {
-                const action = {
-                    type: 'ADD_MATCHES',
-                    payload: result
-                }
-                dispatch(action)     
-            })
+                    console.log('check');
+                    const action = {
+                        type: 'ADD_MATCHES',
+                        payload: result
+                    }
+                    console.log('matchService', result);
+                    dispatch(action)     
+                })
     }, [])
-
     // CRUD on matches
     const matchAdd = (matchData) => {
         dispatch({
@@ -83,7 +84,7 @@ export const MatchProvider = ({children}) => {
         })
     }
     const selectMatch = (matchId) => {
-        return matches.find(x => x._id === matchId) || {}; //so that deleting match from state does not crash due to undefined if updating state is outside fetch of updateing DB
+        return matches.find(x => x._id === matchId); //so that deleting match from state does not crash due to undefined if updating state is outside fetch of updateing DB
     };
 
     return(

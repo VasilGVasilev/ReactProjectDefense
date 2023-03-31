@@ -20,8 +20,8 @@ const MatchDetails = ({
     // select match
     const match = selectMatch(matchId)
     // abstracted for easier update
-    const votes = match.vote;
-
+    const votes = match?.vote;
+    console.log('match ', match);
     // use self-executing function async() => {}() so that we can have two resolved fetches to input into third function, alternative is Promise.all()
     useEffect(() => {
         (async () => {
@@ -31,10 +31,11 @@ const MatchDetails = ({
             const recentVote = matchVotes[lastestVote];
             // update match so that at re-render select finds the updated match with voting
             fetchMatchDetails(matchId, { ...matchDetails, vote: {...recentVote.vote} });
+
         })();
     }, [])
 
-    let owner = user._id == match._ownerId ? true : false;
+    let owner = user._id == match?._ownerId ? true : false;
     let loggedIn = user.email || false;
 
     const handleTeamOne = () => {
@@ -83,21 +84,21 @@ const MatchDetails = ({
 
     
     // empty vote property -> false; populated vote property -> true;
-    let votesBool = true
-    // !!Object.keys(votes).length
+    // let votesBool = !!Object.keys(votes).length
+    // console.log('votesbool', votesBool);
 
 // dynamic style
     const teamOneChartFullStyle = {
         flex:`${votes?.teamOneVotes}`,
-        backgroundColor: `${match.teamOneColor}`
+        backgroundColor: `${match?.teamOneColor}`
     }
 
 // dynamic style
     const teamTwoChartFullStyle = {
         flex:`${votes?.teamTwoVotes}`,
-        backgroundColor: `${match.teamTwoColor}`
+        backgroundColor: `${match?.teamTwoColor}`
     }
-
+    // numerous match?. due to intial render being on an empty initial state, thus, need to handle undefined and allow initial render, only after which useEffect populates data
     return(
         <section className='detailsPage'>
             <div className='container'>
@@ -105,39 +106,36 @@ const MatchDetails = ({
                 <h1 className='title'>Click for your team!!!</h1>
                 <div className='infoSection'>
                     <div className='date'>
-                        {match.date}
+                        {match?.date}
                     </div>
 
                     <div className='matchHeader'>
                         {
-                            !votesBool
-                                ?
-                                    <div>Loading...</div>
-                                :
-                                    <>                                    
-                                        <div className='teamOne'>
-                                            <div className='teamOneChart'>
-                                                <Link className='teamOneChartEmpty' style={{flex:`${votes?.teamTwoVotes}`}}></Link>
-                                                <Link className='teamOneChartFull' onClick={loggedIn ? handleTeamOne : null} style={teamOneChartFullStyle}>{votes?.teamOneVotes}</Link>
-                                            </div>
+                            !!votes &&   
+                                <>                                    
+                                    <div className='teamOne'>
+                                        <div className='teamOneChart'>
+                                            <Link className='teamOneChartEmpty' style={{flex:`${votes.teamTwoVotes}`}}></Link>
+                                            <Link className='teamOneChartFull' onClick={loggedIn ? handleTeamOne : null} style={teamOneChartFullStyle}>{votes.teamOneVotes}</Link>
                                         </div>
+                                    </div>
 
-                                        <div className='teamTwo'>
-                                            <div className='teamTwoChart'>
-                                                <Link className='teamTwoChartEmpty' style={{flex:`${votes?.teamOneVotes}`}}></Link>
-                                                <Link className='teamTwoChartFull' onClick={loggedIn ? handleTeamTwo : null} style={teamTwoChartFullStyle}>{votes?.teamTwoVotes}</Link>
-                                            </div>
+                                    <div className='teamTwo'>
+                                        <div className='teamTwoChart'>
+                                            <Link className='teamTwoChartEmpty' style={{flex:`${votes.teamOneVotes}`}}></Link>
+                                            <Link className='teamTwoChartFull' onClick={loggedIn ? handleTeamTwo : null} style={teamTwoChartFullStyle}>{votes.teamTwoVotes}</Link>
                                         </div>
-                                    </>
-                                    
+                                    </div>
+                                </>
+                        
 
 
                         }
 
                     </div>
                     <div className='matchNames'>                              
-                        <Link className='teamOneName' onClick={loggedIn ? handleTeamOne : null}>{match.teamOne}</Link>
-                        <Link className='teamTwoName' onClick={loggedIn ? handleTeamTwo : null}>{match.teamTwo}</Link>
+                        <Link className='teamOneName' onClick={loggedIn ? handleTeamOne : null}>{match?.teamOne}</Link>
+                        <Link className='teamTwoName' onClick={loggedIn ? handleTeamTwo : null}>{match?.teamTwo}</Link>
                     </div>
 
         {
