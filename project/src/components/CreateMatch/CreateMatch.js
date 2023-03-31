@@ -3,10 +3,13 @@ import { GithubPicker } from 'react-color'
 import { MatchContext } from '../../contexts/MatchContext';
 
 import * as matchService from '../../services/matchServices';
+import * as votingService from '../../services/votingService'
+
+
 
 
 const CreateMatch = () => {
-    const { matchAdd } = useContext(MatchContext)
+    const { matchAdd, voteAdd } = useContext(MatchContext)
 
     const [values, setValues] = useState({
         date: '',
@@ -21,16 +24,29 @@ const CreateMatch = () => {
         e.preventDefault();
         
         // init object with defualt likes
-        let matchData = values;
-        matchData['teamOneVotes'] = 1;
-        matchData['teamTwoVotes'] = 1;
+        const vote = {
+            teamOneVotes: 1,
+            teamTwoVotes: 1
+        }
 
+
+        let matchData = values;
+
+        // Update matches DB
         // first update server
         matchService.create(matchData)
             .then(result=>{
         //second pass on data to update client state
-                matchAdd(result) 
+                matchAdd(result)
+                // Update votes DB
+                votingService.create(result._id, vote)
+                    .then(result=>{
+                        voteAdd(result) 
+                    })
             })
+
+
+
     }
 
     const changeHandler = (e) => {

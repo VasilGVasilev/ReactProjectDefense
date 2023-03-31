@@ -1,6 +1,4 @@
-import { createContext } from "react";
-
-import { useEffect, useState, useContext } from 'react';
+import { createContext, useContext, useReducer, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 import * as matchService from '../services/matchServices'
@@ -19,7 +17,7 @@ export const MatchProvider = ({children}) => {
     useEffect(() => {
         matchService.getAll()
             .then(result => {
-                setMatches(result)
+                setMatches(result.map( x => ({  ...x, vote: {} })))
             })
     }, [])
 
@@ -33,35 +31,39 @@ export const MatchProvider = ({children}) => {
         navigate('/catalog')
     };
 
-    const voteAdd = (matchData) => {
+    const voteAdd = (voteData) => {
         setMatches(state => {
             // you cannot just state: ...state, matchData
             // it will add instead of update the version
             // thus, we use rest operator to fill state with all matches BUT for the updated via filtering it out
             // the, we add the updated to the state
-            return [
-                    ...state.filter(x => x._id !== matchData._id),
-                    matchData
-                ]
+            return state.map(x => x._id === voteData.matchId ? {...x, vote: voteData.vote} : x)
             // alternative -> return [...state.map(x => x._id === matchData._id ? matchData : x)]
         })
     }
 
-    const matchEdit = (matchData) => {
-        setMatches(state => state.map(x => x._id === matchData._id ? matchData : x));
+
+    const matchEdit = (matchDetails) => {
+        setMatches(state => state.map(x => x._id === matchDetails._id ? matchDetails : x));
     }
 
     const matchDel = (matchId) => {
         setMatches(state => state.filter(x => x._id !== matchId));
     }
 
+    const fetchGameDetails = (matchId, matchData) => {
+        setMatches(state => state.map(x => x._id === matchId ? matchData : x));
+
+    }
+
     return(
         <MatchContext.Provider value={{ 
             matches, 
             matchAdd, 
-            voteAdd, 
+            voteAdd,
             matchEdit, 
-            matchDel 
+            matchDel,
+            fetchGameDetails 
         }}>
             {children}
         </MatchContext.Provider>
