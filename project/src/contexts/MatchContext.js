@@ -5,56 +5,86 @@ import * as matchService from '../services/matchServices'
 
 export const MatchContext = createContext();
 
+// outside component -> to not be re-rendered every time we update state
+const matchReducer = (state, action) => {
+    switch (action.type) {
+        case 'ADD_MATCHS':
+            return action.payload.map( x => ({  ...x, vote: {} }))
+            // return action.payload.slice() // Safety check - if we expect an array, easiest way to have a new reference -> someValue.slice() || [...someValue]
+        case 'ADD_MATCH':
+            return [...state, action.payload];
+        case 'FETCH_MATCH_DETAILS': //since we want the same return, namely, set updated state with comment in first case and edited in second case, we can stack them and put only one return for both
+        case 'EDIT_MATCH':
+            return state.map(x => x._id === action.matchId ? action.payload : x)
+        case 'ADD_VOTE':
+            return state.map(x => x._id === action.payload.matchId ? {...x, vote: action.payload.vote} : x)
+        case 'REMOVE_MATCH':
+            return state.filter(x => x._id !== action.matchId);
+        default:
+            return state; //if no valid action is inputed into dispatch
+    }
+}
+
 // Why have provider 
 // -> not overclutter App component
 // -> updating voting requires more complex state structure, thus, useReducer() for similar to Redux global state management
-
 export const MatchProvider = ({children}) => {
     const navigate = useNavigate();
-
-    const [matches, setMatches] = useState([]);
-
+    const [matches, dispatch] = useReducer(matchReducer, []); // useReducer main advantage -> easier to read, matches and votes DB into single state
+    console.log(matches);
     useEffect(() => {
         matchService.getAll()
             .then(result => {
-                setMatches(result.map( x => ({  ...x, vote: {} })))
+                const action = {
+                    type: 'ADD_MATCHES',
+                    payload: result
+                }
+                dispatch(action)     
             })
     }, [])
 
     // CRUD on matches
     const matchAdd = (matchData) => {
-        setMatches(state => [
-            ...state,
-            matchData
-        ]);
-
+        dispatch({
+            type: 'ADD_MATCH',
+            payload: matchData,
+        })
         navigate('/catalog')
     };
 
     const voteAdd = (voteData) => {
-        setMatches(state => {
-            // you cannot just state: ...state, matchData
-            // it will add instead of update the version
-            // thus, we use rest operator to fill state with all matches BUT for the updated via filtering it out
-            // the, we add the updated to the state
-            return state.map(x => x._id === voteData.matchId ? {...x, vote: voteData.vote} : x)
-            // alternative -> return [...state.map(x => x._id === matchData._id ? matchData : x)]
-        })
+        dispatch({
+            type: 'ADD_VOTE',
+            payload: voteData
+        });
     }
 
 
-    const matchEdit = (matchDetails) => {
-        setMatches(state => state.map(x => x._id === matchDetails._id ? matchDetails : x));
+    const matchEdit = (matchId, matchData) => {
+        dispatch({
+            type: 'EDIT_MATCH',
+            payload: matchData,
+            matchId,
+        });
     }
 
     const matchDel = (matchId) => {
-        setMatches(state => state.filter(x => x._id !== matchId));
+        dispatch({
+            type: 'REMOVE_MATCH',
+            matchId,
+        });
     }
 
-    const fetchGameDetails = (matchId, matchData) => {
-        setMatches(state => state.map(x => x._id === matchId ? matchData : x));
-
+    const fetchMatchDetails = (matchId, matchData) => {
+        dispatch({
+            type: 'FETCH_MATCH_DETAILS',
+            payload: matchData,
+            matchId,
+        })
     }
+    const selectMatch = (matchId) => {
+        return matches.find(x => x._id === matchId) || {}; //so that deleting match from state does not crash due to undefined if updating state is outside fetch of updateing DB
+    };
 
     return(
         <MatchContext.Provider value={{ 
@@ -63,7 +93,8 @@ export const MatchProvider = ({children}) => {
             voteAdd,
             matchEdit, 
             matchDel,
-            fetchGameDetails 
+            fetchMatchDetails,
+            selectMatch 
         }}>
             {children}
         </MatchContext.Provider>

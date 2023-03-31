@@ -12,13 +12,13 @@ const MatchDetails = ({
 }) => {
     const navigate = useNavigate()
     const { user } = useAuthContext();
-    const { voteAdd, matches, matchDel, fetchGameDetails } = useMatchContext();
+    const { voteAdd, matchDel, fetchMatchDetails, selectMatch } = useMatchContext();
 
     
     const { matchId } = useParams();
     // TODO update select function
     // select match
-    const match = matches.find(x => x._id == matchId) || {};
+    const match = selectMatch(matchId)
     // abstracted for easier update
     const votes = match.vote;
 
@@ -30,7 +30,7 @@ const MatchDetails = ({
             const lastestVote = matchVotes.length - 1
             const recentVote = matchVotes[lastestVote];
             // update match so that at re-render select finds the updated match with voting
-            fetchGameDetails(matchId, { ...matchDetails, vote: {...recentVote.vote} });
+            fetchMatchDetails(matchId, { ...matchDetails, vote: {...recentVote.vote} });
         })();
     }, [])
 
@@ -88,13 +88,13 @@ const MatchDetails = ({
 
 // dynamic style
     const teamOneChartFullStyle = {
-        flex:`${votes.teamOneVotes}`,
+        flex:`${votes?.teamOneVotes}`,
         backgroundColor: `${match.teamOneColor}`
     }
 
 // dynamic style
     const teamTwoChartFullStyle = {
-        flex:`${votes.teamTwoVotes}`,
+        flex:`${votes?.teamTwoVotes}`,
         backgroundColor: `${match.teamTwoColor}`
     }
 
@@ -117,15 +117,15 @@ const MatchDetails = ({
                                     <>                                    
                                         <div className='teamOne'>
                                             <div className='teamOneChart'>
-                                                <Link className='teamOneChartEmpty' style={{flex:`${votes.teamTwoVotes}`}}></Link>
-                                                <Link className='teamOneChartFull' onClick={loggedIn ? handleTeamOne : null} style={teamOneChartFullStyle}>{votes.teamOneVotes}</Link>
+                                                <Link className='teamOneChartEmpty' style={{flex:`${votes?.teamTwoVotes}`}}></Link>
+                                                <Link className='teamOneChartFull' onClick={loggedIn ? handleTeamOne : null} style={teamOneChartFullStyle}>{votes?.teamOneVotes}</Link>
                                             </div>
                                         </div>
 
                                         <div className='teamTwo'>
                                             <div className='teamTwoChart'>
-                                                <Link className='teamTwoChartEmpty' style={{flex:`${votes.teamOneVotes}`}}></Link>
-                                                <Link className='teamTwoChartFull' onClick={loggedIn ? handleTeamTwo : null} style={teamTwoChartFullStyle}>{votes.teamTwoVotes}</Link>
+                                                <Link className='teamTwoChartEmpty' style={{flex:`${votes?.teamOneVotes}`}}></Link>
+                                                <Link className='teamTwoChartFull' onClick={loggedIn ? handleTeamTwo : null} style={teamTwoChartFullStyle}>{votes?.teamTwoVotes}</Link>
                                             </div>
                                         </div>
                                     </>

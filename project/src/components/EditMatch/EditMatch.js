@@ -39,7 +39,7 @@ const EditMatch = () => {
         matchService.edit(matchId, matchData)
             .then(result=>{
         //second pass on data to update client state
-                matchEdit(result);
+                matchEdit(matchId, result);
                 navigate(`/catalog/${matchId}`)
 
             })
