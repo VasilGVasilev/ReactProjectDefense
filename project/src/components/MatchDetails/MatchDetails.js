@@ -18,7 +18,7 @@ const MatchDetails = ({
     const { matchId } = useParams();
     // TODO update select function
     // select match
-    const match = matches.find(x => x._id == matchId);
+    const match = matches.find(x => x._id == matchId) || {};
     // abstracted for easier update
     const votes = match.vote;
 
