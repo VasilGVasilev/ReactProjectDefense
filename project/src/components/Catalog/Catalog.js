@@ -1,8 +1,8 @@
 import CatalogItem from "./CatalogItem/CatalogItem";
+import { useMatchContext } from '../../contexts/MatchContext'
 
-const Catalog = ({
-    matches
-}) => {
+const Catalog = () => {
+    const { matches } = useMatchContext();
     return(
             <section className="catalogPage">
                 <div className="container">

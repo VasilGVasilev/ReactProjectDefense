@@ -4,6 +4,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export const AuthContext = createContext();
 
+// Why have provider -> not overclutter App component
 export const AuthProvider = ({
     children
 }) => {
