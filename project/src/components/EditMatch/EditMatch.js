@@ -57,7 +57,6 @@ const EditMatch = () => {
             <div className='formWrapper'>
                 <div className="logoAndNB">
                     <span className='logo'>Edit Game</span>
-                    <span className="NB">Note voting will be reset!</span>
                 </div>
                 <form onSubmit={onSubmit}>
                     <label htmlFor='date' defaultValue={values.date} >Date:</label>
