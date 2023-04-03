@@ -11,6 +11,7 @@ const Register = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        
         const formData = new FormData(e.target);
 
         const email = formData.get('email');

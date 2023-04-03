@@ -4,8 +4,7 @@ const Home = () => {
 
     return(
             <section className="home">
-                <Link to={`/catalog`} style={{textDecoration:'none'}}><h1>Choose a match</h1></Link>
-
+                <Link to={`/catalog`} style={{textDecoration:'none'}}><h1> CLICK CLICK CLICK</h1></Link>
             </section>
     );
 };

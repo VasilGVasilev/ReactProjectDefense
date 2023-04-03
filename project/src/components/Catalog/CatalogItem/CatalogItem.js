@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+// unlike majority of app, here we use props for unidirectional data flow
 const CatalogItem = ({match}) => {
     return(
         <div className="match">

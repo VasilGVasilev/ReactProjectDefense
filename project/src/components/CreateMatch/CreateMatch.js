@@ -6,24 +6,26 @@ import * as matchService from '../../services/matchServices';
 import * as votingService from '../../services/votingService'
 
 
-
-
+// Controlled form for viewing the code of the color
 const CreateMatch = () => {
     const { matchAdd, voteAdd } = useContext(MatchContext)
-
+    const colors = ["#800000", "#DB3E00", "#FCCB00", "#004DCF", "#5300EB", "#FF0000", "#999999", "#FFFFFF", "#FE9200", "#A4DD00", "#68CCCA", "#73D8FF",
+        "#AEA1FF", "#FDA1FF", "#333333", "#cccccc", "#E27300", "#B0BC00", "#68BC00", "#0047AB", "#009CE0", "#7B64FF", "#FB9E00", "#653294",
+      ];
+      
     const [values, setValues] = useState({
         date: '',
         teamOne: '',
-        teamOneColor: '#B80000',
+        teamOneColor: '#800000',
         teamTwo: '',
-        teamTwoColor: '#5300EB',
+        teamTwoColor: '#0047AB',
     });
 
 
     const onSubmit = (e) => {
         e.preventDefault();
         
-        // init object with defualt likes
+        // init object with defualt likes due to custom bar chart using flex
         const vote = {
             teamOneVotes: 1,
             teamTwoVotes: 1
@@ -32,13 +34,15 @@ const CreateMatch = () => {
 
         let matchData = values;
 
-        // Update matches DB
-        // first update server
+        // Order of update:
+            // Fist matches collection DB updated (Back-End)
+            // Then matches state updated (Front-End)
+            // Separate voting DB updated likewise, then state added to matches
+            // thus, up-to-date with server for multi-user experience
+
         matchService.create(matchData)
             .then(result=>{
-        //second pass on data to update client state
                 matchAdd(result)
-                // Update votes DB
                 votingService.create(result._id, vote)
                     .then(result=>{
                         voteAdd(result) 
@@ -78,9 +82,10 @@ const CreateMatch = () => {
                         onChange={changeHandler}
                         value={values.teamOne}
                     />
-                    <label htmlFor='teamOneColor'>Color: <span style={{color: values.teamOneColor}}>{values.teamOneColor}</span></label>
+                    <label htmlFor='teamOneColor'>Color: <span style={{color: values.teamOneColor, fontWeight: 'bold'}}>{values.teamOneColor}</span></label>
                     <GithubPicker
                         color={values.teamOneColor}
+                        colors={colors}
                         onChangeComplete={(color) => {setValues(state => ({
                             ...state,
                             teamOneColor: color.hex
@@ -95,8 +100,10 @@ const CreateMatch = () => {
                         onChange={changeHandler}
                         value={values.teamTwo}
                     />
-                    <label htmlFor='teamTwoColor'>Color: <span style={{color: values.teamTwoColor}}>{values.teamTwoColor}</span></label>
+                    <label htmlFor='teamTwoColor'>Color: <span style={{color: values.teamTwoColor, fontWeight: 'bold'}}>{values.teamTwoColor}</span></label>
                     <GithubPicker
+                        color={values.teamTwoColor}
+                        colors={colors}
                         onChangeComplete={(color) => {setValues(state => ({
                             ...state,
                             teamTwoColor: color.hex

@@ -6,16 +6,17 @@ import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 
 export const Logout = () => {
-    const navigate = useNavigate()
-    const { user, userLogout } = useContext(AuthContext)
+    const navigate = useNavigate();
+    const { user, userLogout } = useContext(AuthContext);
+
     useEffect(()=>{
         authService.logout(user.accessToken) 
             .then(()=>{
                 userLogout();
-                navigate('/')
+                navigate('/');
             })
             .catch(()=>{
-                navigate('/')
+                navigate('/');
             })
     })
     return null;

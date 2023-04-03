@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
-
 import { useAuthContext } from '../../contexts/AuthContext';
 
+// re-directs based on auth status
 const PrivateGuard = () => {
     const { isAuthenticated } = useAuthContext();
     

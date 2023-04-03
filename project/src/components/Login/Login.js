@@ -24,7 +24,6 @@ const Login = () => {
                 navigate('/')
             })
             .catch(()=>{
-                // navigate('/404')
             })
     }
     return(

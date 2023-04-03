@@ -10,7 +10,6 @@ export const AuthProvider = ({
 }) => {
     const [auth, setAuth] = useLocalStorage('auth', {}); // 'auth' is a hardcoded key
     
-
     // Best Practice - wrap the state management function in a method, thus, delegating method control, not state management control
     const userLogin = (authData) => {
         setAuth(authData)

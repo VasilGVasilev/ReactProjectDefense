@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom'
-
 import { useAuthContext } from '../../contexts/AuthContext'
 
 const Header = () => {
     const { user } = useAuthContext();
     return (
         <header className='header'>
-            {/* Navigation */}
             <h2 className='homeContainer'>
                 <Link className="home" to="/">
                     Matches

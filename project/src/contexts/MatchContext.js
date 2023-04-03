@@ -5,7 +5,7 @@ import * as matchService from '../services/matchServices'
 
 export const MatchContext = createContext();
 
-// outside component -> to not be re-rendered every time we update state
+// reducing function outside component -> to not be re-rendered every time we update state
 const matchReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_MATCHES':
@@ -31,7 +31,7 @@ const matchReducer = (state, action) => {
 export const MatchProvider = ({children}) => {
     const [matches, dispatch] = useReducer(matchReducer, []); // useReducer main advantage -> easier to read, matches and votes DB into single state
     const navigate = useNavigate();
-    console.log(matches);
+
     useEffect(() => {
         matchService.getAll()
             .then(result => {
@@ -44,7 +44,10 @@ export const MatchProvider = ({children}) => {
                     dispatch(action)     
                 })
     }, [])
+
+
     // CRUD on matches
+
     const matchAdd = (matchData) => {
         dispatch({
             type: 'ADD_MATCH',
@@ -52,14 +55,6 @@ export const MatchProvider = ({children}) => {
         })
         navigate('/catalog')
     };
-
-    const voteAdd = (voteData) => {
-        dispatch({
-            type: 'ADD_VOTE',
-            payload: voteData
-        });
-    }
-
 
     const matchEdit = (matchId, matchData) => {
         dispatch({
@@ -83,9 +78,19 @@ export const MatchProvider = ({children}) => {
             matchId,
         })
     }
+
     const selectMatch = (matchId) => {
         return matches.find(x => x._id === matchId); //so that deleting match from state does not crash due to undefined if updating state is outside fetch of updateing DB
     };
+
+    // CRUD on votes
+
+    const voteAdd = (voteData) => {
+        dispatch({
+            type: 'ADD_VOTE',
+            payload: voteData
+        });
+    }
 
     return(
         <MatchContext.Provider value={{ 
