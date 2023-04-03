@@ -29,7 +29,7 @@ const Register = () => {
             })
     }
     return (
-        <section className='authFormContainer'>
+        <section className='registerFormContainer'>
             <div className='formWrapper'>
                 <span className='logo'>Register</span>
                 <form onSubmit={onSubmit}>

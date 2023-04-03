@@ -1,0 +1,39 @@
+.match {
+    min-width: 247px;
+    max-width: 247px;
+    height: 250px;
+    background-size: cover;
+    background-color: rgb(116, 201, 116, 0.705);
+    margin: 5px 10px;
+    transition: 0.3s ease;
+    z-index: 2;
+
+    .teamSides{
+        border: 10px solid white;
+
+    }
+
+    .detailsButton{
+        background-color: #2A265F;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+        color: #fff;
+        font-size: 20px;
+        letter-spacing: 1px;
+        position: relative;
+        top: 40px;
+        padding: 5px;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+    }
+
+    &:hover{
+        background-color: rgb(116, 201, 116);
+        box-shadow: 0px 0px 20px 0px;
+        backdrop-filter: blur(1px);
+        transform: scale(1.4);
+        transition: 0.4s;
+        z-index: 5;
+    }
+}

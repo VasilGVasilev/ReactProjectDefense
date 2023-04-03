@@ -1,0 +1,83 @@
+.catalogPage{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .container{
+        height: 600px;
+        width: 70%;
+        border: 7px solid white;
+        background-color: rgba(9, 136, 62, 0.705);
+        box-shadow: 0px 0px 40px 0px;
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+
+
+        .title{
+            position: relative;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+            color: white;
+        }
+
+        .carousel {
+            height: 350px;
+            width: auto;
+            position: relative;
+            
+
+            .switchLeft, .switchRight{
+                color: white;
+                font-weight: bold;
+                height: 90%;
+                width: 45px;
+                line-height: 250px;
+                font-size: 25px;
+                text-align: center;
+                padding-top: 30px;
+                font-family: sans-serif;
+                top: 0;
+            }
+
+            .switchLeft {
+                position: absolute;
+                align-items: center;
+                background-color: white;
+                color: black;
+                border-radius: 40px 0px 0px 40px;
+                left: -49px;
+            }
+
+            .switchRight {
+                position: absolute;
+                background-color: white;
+                color: black;
+                border-radius: 0px 40px 40px 0px;
+                right: -49px;
+            }
+            
+            .carouselBox{
+                
+                position: relative;
+                bottom: 30px;
+                height: 410px;
+                width: auto;
+                overflow-y: scroll;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                white-space: nowrap; //full line without breaks of text due to spaces in text
+                @import 'CatalogItem/CatalogItem.scss';
+
+            }
+
+        }
+    
+        
+    }
+    
+}

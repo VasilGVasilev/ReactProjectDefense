@@ -61,7 +61,7 @@ const CreateMatch = () => {
     };
 
     return(
-        <section className='loggedFormContainer'>
+        <section className='createFormContainer'>
             <div className='formWrapper'>
                 <span className='logo'>Create Game</span>
                 <form onSubmit={onSubmit}>

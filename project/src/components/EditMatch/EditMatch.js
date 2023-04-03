@@ -54,7 +54,7 @@ const EditMatch = () => {
     };
 
     return (
-        <section className='loggedFormContainer'>
+        <section className='editFormContainer'>
             <div className='formWrapper'>
                 <div className="logoAndNB">
                     <span className='logo'>Edit Game</span>

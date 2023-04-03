@@ -27,7 +27,7 @@ const Login = () => {
             })
     }
     return(
-        <section className='authFormContainer'>
+        <section className='loginFormContainer'>
             <div className='formWrapper'>
                 <span className='logo'>Login</span>
                 <form onSubmit={onSubmit}>
