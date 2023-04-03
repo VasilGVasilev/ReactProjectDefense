@@ -276,7 +276,6 @@ body{
 
         .title{
             position: relative;
-            top: 10px;
             font-size: 28px;
             font-weight: 700;
             text-transform: uppercase;
@@ -288,6 +287,7 @@ body{
             height: 350px;
             width: auto;
             position: relative;
+            
 
             .switchLeft, .switchRight{
                 color: white;
@@ -300,7 +300,6 @@ body{
                 padding-top: 30px;
                 font-family: sans-serif;
                 top: 0;
-                z-index: 3;
             }
 
             .switchLeft {
@@ -321,15 +320,16 @@ body{
             }
             
             .carouselBox{
-
-                height: 350px;
+                
+                position: relative;
+                bottom: 30px;
+                height: 410px;
                 width: auto;
                 overflow-y: scroll;
                 text-align: center;
                 display: flex;
                 align-items: center;
                 white-space: nowrap; //full line without breaks of text due to spaces in text
-
                 .match {
                     min-width: 247px;
                     max-width: 247px;
@@ -370,38 +370,8 @@ body{
 
             }
 
-
         }
-        
-        // .allMatches {
-        //     display: flex;
-        //     overflow-y: scroll;
-        //     justify-content: space-between; //if you center, you lose some cards when you overflow
-        //     padding: 20px;
-            
-        //     .match{
-
-        //         height: 300px;
-        //         width: 180px;
-        //         background-color: rgba(231, 226, 226);
-        //         box-shadow: 0px 0px 40px 0px;
-        //         backdrop-filter: blur(10px);
-        //         border-radius: 10px;
-        //         font-size: 18px;
-        //         margin: 5px;
-        //         padding: 10px;
-
-        //         .teamSides{
-        //             text-align: center;
-        //             display: flex;
-        //             flex-direction: column;
-        //             justify-content: center;
-        //             align-items: center;
-        //             margin: 20px 0;
-        //             padding: 0px 60px;
-        //         }
-        //     }
-        // }
+    
         
     }
     
@@ -415,7 +385,7 @@ body{
     justify-content: center;
 
     .container{
-        width: 40%;
+        width: 400px;
         border: 7px solid white;
         background-color: rgb(116, 201, 116, 0.705);
         box-shadow: 0px 0px 40px 0px;
@@ -438,6 +408,7 @@ body{
             align-items: center;
             text-align: center;
             gap: 20px;
+            padding: 20px;
 
             .matchHeader{
                 display: flex;
