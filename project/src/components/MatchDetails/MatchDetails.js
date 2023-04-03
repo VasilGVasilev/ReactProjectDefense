@@ -8,20 +8,19 @@ import { useEffect } from 'react';
 
 
 
-const MatchDetails = ({
-}) => {
+const MatchDetails = () => {
     const navigate = useNavigate()
     const { user } = useAuthContext();
     const { voteAdd, matchDel, fetchMatchDetails, selectMatch } = useMatchContext();
 
     
     const { matchId } = useParams();
-    // TODO update select function
-    // select match
+
     const match = selectMatch(matchId)
+
     // abstracted for easier update
     const votes = match?.vote;
-    console.log('match ', match);
+
     // use self-executing function async() => {}() so that we can have two resolved fetches to input into third function, alternative is Promise.all()
     useEffect(() => {
         (async () => {
@@ -29,14 +28,12 @@ const MatchDetails = ({
             const matchVotes = await votingService.getByMatchId(matchId);
             const lastestVote = matchVotes.length - 1
             const recentVote = matchVotes[lastestVote];
+
             // update match so that at re-render select finds the updated match with voting
             fetchMatchDetails(matchId, { ...matchDetails, vote: {...recentVote.vote} });
-
         })();
     }, [])
 
-    let owner = user._id == match?._ownerId ? true : false;
-    let loggedIn = user.email || false;
 
     const handleTeamOne = () => {
         let current = votes?.teamOneVotes;
@@ -51,8 +48,6 @@ const MatchDetails = ({
             .then(result=>{
                 voteAdd(voteData);
             })
-        
-
     }
 
     const handleTeamTwo = () => {
@@ -82,37 +77,48 @@ const MatchDetails = ({
             })
     }
 
-    
-    // empty vote property -> false; populated vote property -> true;
-    // let votesBool = !!Object.keys(votes).length
-    // console.log('votesbool', votesBool);
 
-// dynamic style
+
+    // CSS variables
+    const owner = user._id == match?._ownerId ? true : false;
+    const loggedIn = user.email || false;
+
+    // dynamic style
     const teamOneChartFullStyle = {
         flex:`${votes?.teamOneVotes}`,
         backgroundColor: `${match?.teamOneColor}`
     }
 
-// dynamic style
     const teamTwoChartFullStyle = {
         flex:`${votes?.teamTwoVotes}`,
         backgroundColor: `${match?.teamTwoColor}`
     }
+
     // numerous match?. due to intial render being on an empty initial state, thus, need to handle undefined and allow initial render, only after which useEffect populates data
     return(
         <section className='detailsPage'>
             <div className='container'>
 
-                <h1 className='title'>Click for your team!!!</h1>
+                <h1 className='title'>Click for your team </h1>
                 <div className='infoSection'>
+                    {
+                        owner &&
+                                <div className='buttonsDelEdit'>
+                                    <Link to={`/matches/${matchId}/edit`} className='buttonEdit'>
+                                        Edit
+                                    </Link>
+                                    <Link onClick={deleteMatch} className='buttonDel'>
+                                        Delete
+                                    </Link>
+                                </div>
+                    }
                     <div className='date'>
                         {match?.date}
                     </div>
-
                     <div className='matchHeader'>
                         {
                             !!votes &&   
-                                <>                                    
+                                <>                      
                                     <div className='teamOne'>
                                         <div className='teamOneChart'>
                                             <Link className='teamOneChartEmpty' style={{flex:`${votes.teamTwoVotes}`}}></Link>
@@ -127,36 +133,12 @@ const MatchDetails = ({
                                         </div>
                                     </div>
                                 </>
-                        
-
-
                         }
-
                     </div>
                     <div className='matchNames'>                              
                         <Link className='teamOneName' onClick={loggedIn ? handleTeamOne : null}>{match?.teamOne}</Link>
                         <Link className='teamTwoName' onClick={loggedIn ? handleTeamTwo : null}>{match?.teamTwo}</Link>
                     </div>
-
-        {
-            owner 
-                ?
-                    <div className='buttonsDelEdit'>
-                        <Link to={`/matches/${matchId}/edit`} className='buttonEdit'>
-                            Edit
-                        </Link>
-                        <Link onClick={deleteMatch} className='buttonDel'>
-                            Delete
-                        </Link>
-                    </div>
-                :
-                    <>
-                    </>
-
-        }
-
-
-
                 </div>
             </div>
 
