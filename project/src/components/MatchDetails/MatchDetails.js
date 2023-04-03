@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 
 const MatchDetails = () => {
     const navigate = useNavigate()
-    const { user } = useAuthContext();
+    const { user, isAuthenticated } = useAuthContext();
     const { voteAdd, matchDel, fetchMatchDetails, selectMatch } = useMatchContext();
 
     
@@ -81,7 +81,6 @@ const MatchDetails = () => {
 
     // CSS variables
     const owner = user._id == match?._ownerId ? true : false;
-    const loggedIn = user.email || false;
 
     // dynamic style
     const teamOneChartFullStyle = {
@@ -122,26 +121,25 @@ const MatchDetails = () => {
                                     <div className='teamOne'>
                                         <div className='teamOneChart'>
                                             <Link className='teamOneChartEmpty' style={{flex:`${votes.teamTwoVotes}`}}></Link>
-                                            <Link className='teamOneChartFull' onClick={loggedIn ? handleTeamOne : null} style={teamOneChartFullStyle}>{votes.teamOneVotes}</Link>
+                                            <Link className='teamOneChartFull' onClick={isAuthenticated ? handleTeamOne : null} style={teamOneChartFullStyle}>{votes.teamOneVotes}</Link>
                                         </div>
                                     </div>
 
                                     <div className='teamTwo'>
                                         <div className='teamTwoChart'>
                                             <Link className='teamTwoChartEmpty' style={{flex:`${votes.teamOneVotes}`}}></Link>
-                                            <Link className='teamTwoChartFull' onClick={loggedIn ? handleTeamTwo : null} style={teamTwoChartFullStyle}>{votes.teamTwoVotes}</Link>
+                                            <Link className='teamTwoChartFull' onClick={isAuthenticated ? handleTeamTwo : null} style={teamTwoChartFullStyle}>{votes.teamTwoVotes}</Link>
                                         </div>
                                     </div>
                                 </>
                         }
                     </div>
                     <div className='matchNames'>                              
-                        <Link className='teamOneName' onClick={loggedIn ? handleTeamOne : null}>{match?.teamOne}</Link>
-                        <Link className='teamTwoName' onClick={loggedIn ? handleTeamTwo : null}>{match?.teamTwo}</Link>
+                        <Link className='teamOneName' onClick={isAuthenticated ? handleTeamOne : null}>{match?.teamOne}</Link>
+                        <Link className='teamTwoName' onClick={isAuthenticated ? handleTeamTwo : null}>{match?.teamTwo}</Link>
                     </div>
                 </div>
             </div>
-
         </section>
     )
 }
