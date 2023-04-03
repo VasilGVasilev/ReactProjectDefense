@@ -4,24 +4,6 @@ body{
     background-size: cover;
 }
 
-@mixin mobile{
-    @media screen and (max-width: 480px) {
-        @content;
-    }
-}
-
-@mixin tablet{
-    @media screen and (max-width: 768px) {
-        @content;
-    }
-}
-
-@mixin laptop{
-    @media screen and (max-width: 1200px) {
-        @content;
-    }
-}
-
 @mixin animate{
     animation: glow 1s ease-in-out infinite alternate;
 

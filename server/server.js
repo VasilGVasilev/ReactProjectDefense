@@ -1334,63 +1334,7 @@
     };
     var seedData = {
         matches: {
-            "ff436770-76c5-40e2-b231-77409eda7a61": {
-                "_ownerId": "35c62d76-8152-4626-8712-eeb96381bea8",
-                "teamOne": "Real Madrid",
-                "teamTwo": "Barcelona",
-                "date": "23.05.2023",
-                "_createdOn": 1617194128618,
-            },
-            "1840a313-225c-416a-817a-9954d4609f7c": {
-                "_ownerId": "35c62d76-8152-4626-8712-eeb96381bea8",
-                "teamOne": "Barcelona",
-                "teamTwo": "Atletico Madrid",
-                "date": "2.02.2023",
-                "_createdOn": 1617194210928,
-            },
-            "126777f5-3277-42ad-b874-76d043b069cb": {
-                "_ownerId": "847ec027-f659-4086-8032-5173e2f9c93a",
-                "teamOne": "Atletico Madrid",
-                "teamTwo": "Real Madrid",
-                "date": "23.01.2023",
-                "_createdOn": 1617194295474,
-            },
-            "ff436770-76c5-40e2-b231-774093da7a61": {
-                "_ownerId": "35c62d76-8152-4626-8712-eeb96381bea8",
-                "teamOne": "Liverpool",
-                "teamTwo": "Atletico Madrid",
-                "date": "13.02.2023",
-                "_createdOn": 1617194128618,
-            },
-            "1840a313-225c-416a-817a-9904d4609f7c": {
-                "_ownerId": "35c62d76-8152-4626-8712-eeb96381bea8",
-                "teamOne": "Manchester United",
-                "teamTwo": "Atletico Madrid",
-                "date": "5.05.2023",
-                "_createdOn": 1617194210928,
-            },
-            "126777f5-3277-42ad-b814-76d043b069cb": {
-                "_ownerId": "847ec027-f659-4086-8032-5173e2f9c93a",
-                "teamOne": "Bournemounth",
-                "teamTwo": "Liverpool",
-                "date": "13.07.2023",
-                "_createdOn": 1617194295474,
-            },
-            "1840a313-225c-416a-817a-9904d4609f1c": {
-                "_ownerId": "35c62d76-8152-4626-8712-eeb96381bea8",
-                "teamOne": "Manchester United",
-                "teamTwo": "Liverpool",
-                "date": "31.02.2023",
-                "_createdOn": 1617194210928,
-            },
-            "126777f5-3277-42ad-b814-76d013b069cb": {
-                "_ownerId": "847ec027-f659-4086-8032-5173e2f9c93a",
-                "teamOne": "Bournemounth",
-                "teamTwo": "Manchester United",
-                "date": "8.02.2023",
-                "_createdOn": 1617194295474,
-            },
-            
+
         },
         votes: {
         
