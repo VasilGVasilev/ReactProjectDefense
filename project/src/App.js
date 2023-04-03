@@ -20,26 +20,23 @@ import EditMatch from './components/EditMatch/EditMatch';
 
 
 function App() {
-
     return (
-        // user:auth for custom visualisation, userLogin and userLogout -> to enable real-time authentication
         <AuthProvider>
             <div className="box">
-                <Header></Header>
-                
+                <Header />
                 <MatchProvider>
                     <main className='main-content'>
                         <Routes>
-                            <Route path='/' element={<Home />}></Route>
-                            <Route path='/login' element={<Login />}></Route>
-                            <Route path='/register' element={<Register />}></Route>
+                            <Route path='/' element={<Home />} />
+                            <Route path='/login' element={<Login />} />
+                            <Route path='/register' element={<Register />} />
                             <Route element={<PrivateGuard />}>
-                                <Route path='/logout' element={<Logout />}></Route>
-                                <Route path='/create' element={<CreateMatch />}></Route>
-                                <Route path='/matches/:matchId/edit' element={<EditMatch />}></Route>
+                                <Route path='/logout' element={<Logout />} />
+                                <Route path='/create' element={<CreateMatch />} />
+                                <Route path='/matches/:matchId/edit' element={<EditMatch />} />
                             </Route>
-                            <Route path='/catalog' element={<Catalog />}></Route>
-                            <Route path='/catalog/:matchId' element={<MatchDetails />}></Route>
+                            <Route path='/catalog' element={<Catalog />} />
+                            <Route path='/catalog/:matchId' element={<MatchDetails />} />
                         </Routes>
                     </main>
                 </MatchProvider>

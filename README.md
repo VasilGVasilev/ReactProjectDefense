@@ -3,7 +3,7 @@
 ## What's in the stack
 
 - Styling with [SASS](https://sass-lang.com/)
-
+- Color picker with [React Color](https://casesandberg.github.io/react-color/)
 
 ## Development
 
