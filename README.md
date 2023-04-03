@@ -4,6 +4,7 @@
 
 - Styling with [SASS](https://sass-lang.com/)
 - Color picker with [React Color](https://casesandberg.github.io/react-color/)
+- Server by [SoftUni Practice Server](https://github.com/softuni-practice-server/softuni-practice-server)
 
 ## Development
 
@@ -19,35 +20,34 @@
   ```
 
 
-
-How does the app work:
+## How does the app work:
 
 Auth
-    separation of concerns:
-        we use a model of component calling services calling util function
 
     Registration: 
-        we make a registration request according to softuni practice server docs
-        the service automatically creates a session on the server and returns an object with {email, password, createdOn, -id and accessToken}
-        we pass on this object to our userLogin function via context API
+        Registration request triggers automatically the creation of a session on the server and returns an object with {email, password, createdOn, -id and accessToken}.
+        Pass on this object to our userLogin function via context API.
     
     Login:
-        we utilize the custom hook combining setting the object as a value of state for App component and setting the value of localStorage
+        Utilize the custom hook 'useLocalStorage' - sets the object both as a value of state for the App component and as a value of localStorage, thus, authentication persists in case of page refresh.
 
     Navigation:
-        we filter Links based on if there is user.email in Context API, because only logged-in user has email, default auth is empty object {}
+        Filter links based on user.email available in Context API - only logged-in user will have valid user.email, default auth is empty object {}.
 
     
 CRUD on matches
 
     Catalog:
-        we sort the last added match to be first left-to-right.
+        Sorts the last added match to be first left-to-right.
 
     CreateMatch:
-        we make a create POST request and update the local App via Context API method passed in as a value.
-
-    MatchDetail:
-        we load the chosen match onto matchDetails component state and use it to visualise default properties. Likes are dynamic, we use CSS flex to make bar chart out of visible and invisible block above it. handleClick changes the proportion of these to flex blocks so that it represents a bar chart. We use the central matches state in App component to extracted away the one we want details for. Each click to vote mutates the state of the locally extracted match and via Context API useContext method from App component we update the match details regarding voting in the central state (App component). This is done on Front-End only due to limits of the Softuni Practice Server to make PUT requests to collections by users other than the owner. If you refresh likes are destroyed since state is re-set based on fetch from DB.
+        Sends a create POST request and updates the App component state via Context API.
 
     EditMatch:
-        we fetch data from DB into a controlled form, there is a note saying that voting will be reset, since for now it does not persist even in memory of DB
+        Fetches data only from matches collection DB into a controlled form, since editing votes will go against logic of app. 
+
+    MatchDetail:
+        Loads the chosen match onto matchDetails component from global state via ContextApi. Default visualisation with initial empty object global state value is error handled via '?.'. 
+        Votes are dynamic - CSS flex to make bar chart out of visible and invisible block above it. Method handleClick() changes the proportion of these to flex blocks so that it represents a bar chart. 
+        Each click to vote mutates the votes collection in DB while also updates the global state by adding votes to be a subvalue of matches. 
+        The reason for two separate collections that are combined into single state only on Front-End - limitations of the Softuni Practice Server to make PUT requests to collections by users other than the owner.
