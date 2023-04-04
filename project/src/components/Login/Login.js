@@ -31,7 +31,7 @@ const Login = () => {
             <div className='formWrapper'>
                 <span className='logo'>Login</span>
                 <form onSubmit={onSubmit}>
-                    <input type="email" name="email" placeholder='email'/>
+                    <input  autocomplete="off" type="email" name="email" placeholder='email'/>
                     <input type="password" name="password" placeholder='password'/>
                     <button>Sign in</button>
                 </form>

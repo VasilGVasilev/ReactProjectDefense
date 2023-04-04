@@ -33,7 +33,7 @@ const Register = () => {
             <div className='formWrapper'>
                 <span className='logo'>Register</span>
                 <form onSubmit={onSubmit}>
-                    <input type="email" name="email" placeholder='email' />
+                    <input  autocomplete="off" type="email" name="email" placeholder='email' />
                     <input type="password" name="password" placeholder='password' />
                     <input type="password" name="confirm-password" placeholder='repeat password' />
 
