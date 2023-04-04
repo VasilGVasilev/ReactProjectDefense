@@ -14,14 +14,16 @@ const Register = () => {
     })
 
     const [errors, setErrors] = useState({});
+    const [mismatch, setMismatch] = useState(false);
+
 
     const { userLogin } = useAuthContext()
     const navigate = useNavigate();
-
     const onSubmit = (e) => {
         e.preventDefault();
 
         if (values.password != values.confirmPassword) {
+            setMismatch(true);
             return; //stops onSubmit before passing on data to service
         }
 
@@ -114,7 +116,12 @@ const Register = () => {
                     />
                     {errors.confirmPassword &&
                         <p className="formError">
-                            Repreated password should be at least 4 characters long!
+                            Repeated password should be at least 4 characters long!
+                        </p>
+                    }
+                    {mismatch &&
+                        <p className="formError">
+                            Repeated password should match password!
                         </p>
                     }
                     <button>Sign up</button>

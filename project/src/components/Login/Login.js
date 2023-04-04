@@ -20,16 +20,14 @@ const Login = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        const email = values.email;
-        const password = values.password;
-
-        authService.login(email, password)
+        authService.login(values.email, values.password)
             .then(authData => {
                 userLogin(authData)
                 navigate('/')
             })
-            .catch(()=>{
-            })
+        if(values.email == 'azis@abv.bg'){
+            throw new Error('Error')
+        }
     }
 
     const changeHandler = (e) => {
