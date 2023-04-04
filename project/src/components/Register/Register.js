@@ -1,42 +1,122 @@
-import { useContext } from "react";
-import { AuthContext } from '../../contexts/AuthContext'
+import { useAuthContext } from '../../contexts/AuthContext'
+import { useState } from 'react'
 
 import * as authService from '../../services/authService'
 
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
-    const { userLogin } = useContext(AuthContext)
+
+    const [values, setValues] = useState({
+        email: '',
+        password: '',
+        confirmPassword: ''
+    })
+
+    const [errors, setErrors] = useState({});
+
+    const { userLogin } = useAuthContext()
     const navigate = useNavigate();
 
     const onSubmit = (e) => {
         e.preventDefault();
-        
-        const formData = new FormData(e.target);
 
-        const email = formData.get('email');
-        const password = formData.get('password');
-        const confirmPassword = formData.get('confirm-password');
-
-        if (password != confirmPassword) {
+        if (values.password != values.confirmPassword) {
             return; //stops onSubmit before passing on data to service
         }
 
-        authService.register(email, password)
+        authService.register(values.email, values.password)
             .then(authData => {
                 userLogin(authData)
                 navigate('/')
             })
     }
+
+    const changeHandler = (e) => {
+        setValues(state => ({
+            ...state,
+            [e.target.name]: e.target.value //we target by name due to state with multiple values, thus, need for constant //reusable
+        }));
+    };
+    
+    // Data validation
+
+    const minLength = (e, bound) => {
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: values[e.target.name].length < bound,
+        }));
+    };
+
+    const validEmail = (e) => {
+        const regex = /^(.+)@(.+)\.(.+)$/g;
+        const found = values[e.target.name].match(regex);
+
+        if(!found){
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: values[e.target.name]
+            }));
+        }
+    };
+
+    // Error msg disappears on retry
+    const resetError = (e) => {
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: ''
+        }));
+    
+    };
+
     return (
         <section className='registerFormContainer'>
             <div className='formWrapper'>
                 <span className='logo'>Register</span>
                 <form onSubmit={onSubmit}>
-                    <input  autocomplete="off" type="email" name="email" placeholder='email' />
-                    <input type="password" name="password" placeholder='password' />
-                    <input type="password" name="confirm-password" placeholder='repeat password' />
-
+                    <input
+                        onChange={changeHandler} 
+                        value={values.email}
+                        onBlur={(e) => validEmail(e)}  
+                        onClick={(e) => resetError(e)}
+                        autoComplete="off" 
+                        type="email"   
+                        name="email" 
+                        placeholder='email'
+                    />
+                    {errors.email &&
+                        <p className="formError">
+                            Enter valid email!
+                        </p>
+                    }
+                    <input
+                        onChange={changeHandler} 
+                        value={values.password} 
+                        onBlur={(e) => minLength(e, 4)}  
+                        onClick={(e) => resetError(e)}
+                        type="password" 
+                        name="password" 
+                        placeholder='password'
+                    />
+                    {errors.password &&
+                        <p className="formError">
+                            Password should be at least 4 characters long!
+                        </p>
+                    }
+                    <input
+                        onChange={changeHandler} 
+                        value={values.confirmPassword}  
+                        onBlur={(e) => minLength(e, 4)}
+                        onClick={(e) => resetError(e)}
+                        type="password" 
+                        name="confirmPassword" 
+                        placeholder='repeat password'
+                    />
+                    {errors.confirmPassword &&
+                        <p className="formError">
+                            Repreated password should be at least 4 characters long!
+                        </p>
+                    }
                     <button>Sign up</button>
                 </form>
                 <p>If you already have profile click <Link to="/login">here</Link></p>

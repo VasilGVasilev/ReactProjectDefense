@@ -35,12 +35,10 @@ export const MatchProvider = ({children}) => {
     useEffect(() => {
         matchService.getAll()
             .then(result => {
-                    console.log('check');
                     const action = {
                         type: 'ADD_MATCHES',
                         payload: result
                     }
-                    console.log('matchService', result);
                     dispatch(action)     
                 })
     }, [])
