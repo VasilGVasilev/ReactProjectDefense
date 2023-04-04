@@ -97,8 +97,13 @@ const MatchDetails = () => {
     return(
         <section className='detailsPage'>
             <div className='container'>
-
-                <h1 className='title'>Click for your team </h1>
+                {isAuthenticated
+                    ?
+                        <h1 className='title'>Click for your team !</h1>
+                    :
+                        <Link style={{textDecoration: 'none', cursor: 'pointer'}} to={'/login'}><h1 className='title' >Login to vote</h1></Link>
+                }
+                
                 <div className='infoSection'>
                     {
                         owner &&
