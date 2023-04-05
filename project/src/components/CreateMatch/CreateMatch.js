@@ -103,7 +103,8 @@ const CreateMatch = () => {
             <div className='formWrapper'>
                 <span className='logo'>Create Game</span>
                 <form onSubmit={onSubmit}>
-                    <label htmlFor='date' value={values.date} >Date:{errors.noDate && <div className='errors'>Enter date</div>}</label>
+                    <label htmlFor='date' >Date:</label>
+                    {errors.noDate && <div className='errors'>Enter date</div>}
                     <input 
                         type='date' 
                         name='date' 
@@ -111,7 +112,8 @@ const CreateMatch = () => {
                         onChange={changeHandler}
                         value={values.date}
                     />
-                    <label htmlFor='teamOne'>Team 1:{errors.noTeamOne && <div className='errors'>Enter name</div>}</label>
+                    <label htmlFor='teamOne'>Team 1:</label>
+                    {errors.noTeamOne && <div className='errors'>Enter name</div>}
                     <input 
                         type='text' 
                         name='teamOne' 
@@ -129,7 +131,8 @@ const CreateMatch = () => {
                             teamOneColor: color.hex
                         }))}}
                     />
-                    <label htmlFor='teamTwo'>Team 2:{errors.noTeamTwo && <div className='errors'>Enter name!</div>}</label>
+                    <label htmlFor='teamTwo'>Team 2:</label>
+                    {errors.noTeamTwo && <div className='errors'>Enter name!</div>}
                     <input 
                         type='text' 
                         name='teamTwo' 

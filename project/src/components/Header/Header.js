@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../contexts/AuthContext'
 
 const Header = () => {
-    const { user } = useAuthContext();
+    const { isAuthenticated } = useAuthContext();
     return (
         <header className='header'>
             <h2 className='homeContainer'>
@@ -13,7 +13,7 @@ const Header = () => {
             <nav className='linksContainer'>
                 <Link to="/catalog">All matches</Link>
                 {
-                    user.email //if there is logged-in user show logged-in navs, if no show defualt to guest 
+                    isAuthenticated
                         ?
                         <div id="user">
                             <Link to="/create">Create Match</Link>
