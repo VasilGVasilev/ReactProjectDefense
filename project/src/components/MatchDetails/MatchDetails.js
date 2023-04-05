@@ -121,7 +121,7 @@ const MatchDetails = () => {
                     </div>
                     <div className='matchHeader'>
                         {
-                            !!votes &&   
+                            !!votes &&   //error handling with enabled throttling - intitial render based on useEffect which may be slow
                                 <>                      
                                     <div className='teamOne'>
                                         <div className='teamOneChart'>

@@ -9,7 +9,7 @@ import * as votingService from '../../services/votingService'
 // Controlled form for viewing the code of the color
 const CreateMatch = () => {
     const { matchAdd, voteAdd } = useContext(MatchContext)
-    const colors = ["#800000", "#DB3E00", "#FCCB00", "#004DCF", "#5300EB", "#FF0000", "#999999", "#FFFFFF", "#FE9200", "#A4DD00", "#68CCCA", "#73D8FF",
+    const colors = ["#800000", "#DB3E00", "#FCCB00", "#004DCF", "#5300EB", "#FF0000", "#999999", "#028A0F", "#FE9200", "#A4DD00", "#68CCCA", "#73D8FF",
         "#AEA1FF", "#FDA1FF", "#333333", "#cccccc", "#E27300", "#B0BC00", "#68BC00", "#0047AB", "#009CE0", "#7B64FF", "#FB9E00", "#653294",
       ];
       

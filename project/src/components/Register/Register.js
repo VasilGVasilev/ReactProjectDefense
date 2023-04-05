@@ -14,19 +14,17 @@ const Register = () => {
     })
 
     const [errors, setErrors] = useState({});
-    const [mismatch, setMismatch] = useState(false);
-
 
     const { userLogin } = useAuthContext()
     const navigate = useNavigate();
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (values.password != values.confirmPassword) {
-            setMismatch(true);
+
+        
+        if(errors.length > 0){
             return; //stops onSubmit before passing on data to service
         }
-
         authService.register(values.email, values.password)
             .then(authData => {
                 userLogin(authData)
@@ -62,13 +60,26 @@ const Register = () => {
         }
     };
 
+    const minLengthmisMatch = (e, bound) => {
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: values[e.target.name].length < bound,
+        }));
+        if (values.password != values.confirmPassword) {
+            setErrors(state => ({
+                ...state,
+                mismatch: 'mismatch'
+            }))
+        }
+    } 
+
     // Error msg disappears on retry
     const resetError = (e) => {
         setErrors(state => ({
             ...state,
-            [e.target.name]: ''
+            [e.target.name]: '',
+            mismatch: ''
         }));
-    
     };
 
     return (
@@ -108,7 +119,7 @@ const Register = () => {
                     <input
                         onChange={changeHandler} 
                         value={values.confirmPassword}  
-                        onBlur={(e) => minLength(e, 4)}
+                        onBlur={(e) => minLengthmisMatch(e, 4)}
                         onClick={(e) => resetError(e)}
                         type="password" 
                         name="confirmPassword" 
@@ -119,7 +130,7 @@ const Register = () => {
                             Repeated password should be at least 4 characters long!
                         </p>
                     }
-                    {mismatch &&
+                    {errors?.mismatch &&
                         <p className="formError">
                             Repeated password should match password!
                         </p>
