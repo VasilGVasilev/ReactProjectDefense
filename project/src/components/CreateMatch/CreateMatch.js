@@ -30,23 +30,9 @@ const CreateMatch = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        
-        // init object with defualt likes due to custom bar chart using flex
-        const vote = {
-            teamOneVotes: 1,
-            teamTwoVotes: 1
-        }
-
 
         let matchData = values;
 
-        // Order of update:
-            // Fist matches collection DB updated (Back-End)
-            // Then matches state updated (Front-End)
-            // Separate voting DB updated likewise, then state added to matches
-            // thus, up-to-date with server for multi-user experience
-        
-        
         // Data validation:
 
         if(matchData.date == ''){
@@ -70,6 +56,22 @@ const CreateMatch = () => {
             }))
             return;
         }
+
+        // Order of update:
+            // Fist matches collection DB updated (Back-End)
+            // Then matches state updated (Front-End)
+            // Separate voting DB updated likewise, then state added to matches
+            // thus, up-to-date with server for multi-user experience
+
+
+
+        // init object with defualt likes due to custom bar chart using flex
+        const vote = {
+            teamOneVotes: 1,
+            teamTwoVotes: 1
+        }
+
+                
         matchService.create(matchData)
             .then(result=>{
                 matchAdd(result)
