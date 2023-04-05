@@ -21,6 +21,12 @@ const CreateMatch = () => {
         teamTwoColor: '#0047AB',
     });
 
+    const [errors, setErrors] = useState({
+        noDate: false,
+        noTeamOne: false,
+        noTeamTwo: false,
+    })
+
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -39,7 +45,31 @@ const CreateMatch = () => {
             // Then matches state updated (Front-End)
             // Separate voting DB updated likewise, then state added to matches
             // thus, up-to-date with server for multi-user experience
+        
+        
+        // Data validation:
 
+        if(matchData.date == ''){
+            setErrors(state => ({
+                ...state,
+                noDate: true
+            }))
+            return;
+        }
+        if(matchData.teamOne == ''){
+            setErrors(state => ({
+                ...state,
+                noTeamOne: true
+            }))
+            return;
+        }
+        if(matchData.teamTwo == ''){
+            setErrors(state => ({
+                ...state,
+                noTeamTwo: true
+            }))
+            return;
+        }
         matchService.create(matchData)
             .then(result=>{
                 matchAdd(result)
@@ -50,13 +80,19 @@ const CreateMatch = () => {
             })
 
 
-
     }
 
     const changeHandler = (e) => {
         setValues(state => ({
             ...state,
             [e.target.name]: e.target.value
+        }));
+        // reset data validation on click
+        setErrors(state => ({
+            ...state,
+            noDate: false,
+            noTeamOne: false,
+            noTeamTwo: false,
         }));
     };
 
@@ -65,7 +101,7 @@ const CreateMatch = () => {
             <div className='formWrapper'>
                 <span className='logo'>Create Game</span>
                 <form onSubmit={onSubmit}>
-                    <label htmlFor='date' value={values.date} >Date:</label>
+                    <label htmlFor='date' value={values.date} >Date:{errors.noDate && <div className='errors'>Enter date</div>}</label>
                     <input 
                         type='date' 
                         name='date' 
@@ -73,7 +109,7 @@ const CreateMatch = () => {
                         onChange={changeHandler}
                         value={values.date}
                     />
-                    <label htmlFor='teamOne'>Team 1:</label>
+                    <label htmlFor='teamOne'>Team 1:{errors.noTeamOne && <div className='errors'>Enter name</div>}</label>
                     <input 
                         type='text' 
                         name='teamOne' 
@@ -91,7 +127,7 @@ const CreateMatch = () => {
                             teamOneColor: color.hex
                         }))}}
                     />
-                    <label htmlFor='teamTwo'>Team 2:</label>
+                    <label htmlFor='teamTwo'>Team 2:{errors.noTeamTwo && <div className='errors'>Enter name!</div>}</label>
                     <input 
                         type='text' 
                         name='teamTwo' 
