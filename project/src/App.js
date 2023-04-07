@@ -11,6 +11,7 @@ import Catalog from './components/Catalog/Catalog';
 import MatchDetails from './components/MatchDetails/MatchDetails';
 import EditMatch from './components/EditMatch/EditMatch';
 
+import NotFound from './components/NotFound/NotFound';
 
 import { MatchProvider } from './contexts/MatchContext'
 import { AuthProvider } from './contexts/AuthContext'
@@ -36,6 +37,7 @@ function App() {
                                 </Route>
                                 <Route path='/catalog' element={<Catalog />} />
                                 <Route path='/catalog/:matchId' element={<MatchDetails />} />
+                                <Route path='*' element={<NotFound />} />
                             </Routes>
                         </main>
                     </MatchProvider>

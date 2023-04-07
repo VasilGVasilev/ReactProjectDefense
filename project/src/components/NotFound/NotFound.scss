@@ -1,0 +1,16 @@
+.notFoundPage{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .container{
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        background-color: rgba(195, 24, 24, 0.705);
+        border: 2px solid white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+
+    }
+}
