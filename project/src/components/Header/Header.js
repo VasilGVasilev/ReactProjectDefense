@@ -7,7 +7,7 @@ const Header = () => {
         <header className='header'>
             <h2 className='homeContainer'>
                 <Link className="home" to="/">
-                    Matches
+                    Home
                 </Link>
             </h2>
             <nav className='linksContainer'>
