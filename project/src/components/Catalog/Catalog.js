@@ -11,7 +11,7 @@ const Catalog = () => {
                             <h1>All matches</h1>
                         </div>
                         <div className="carousel">
-                            <div className="carouselBox" style={matches?.length < 4 ? {justifyContent:'center'} : {}}>
+                            <div className="carouselBox" style={matches?.length < 6 ? {justifyContent:'center'} : {}}>
                                 {matches?.length > 0 //data validation ?.
                                     ? matches.slice(0).reverse().map(match => <CatalogItem key={match._id} match={match}/>)
                                     : <h3 className="noMatches">No matches yet</h3>

@@ -41,6 +41,11 @@
         gap: 20px;
         @include animate;
 
+        .welcomePrompt{
+            font-family: 'Times New Roman', Times, serif;
+            margin-right: 16px;
+            color: white;
+        }
         a {
             padding: 0px 10px;
             cursor: pointer;
