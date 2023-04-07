@@ -32,7 +32,7 @@ const MatchDetails = () => {
             // update match so that at re-render select finds the updated match with voting
             fetchMatchDetails(matchId, { ...matchDetails, vote: {...recentVote.vote} });
         })();
-    }, [])
+    }, []) //no need to update dependency, we do not rely on server for fresh data, we update simultaneously server and state
 
 
     const handleTeamOne = () => {

@@ -41,7 +41,7 @@ export const MatchProvider = ({children}) => {
                     }
                     dispatch(action)     
                 })
-    }, [])
+    }, []) //initial fetch is enough, after that we update manually but simultaneoulsy server and state data
 
 
     // CRUD on matches
